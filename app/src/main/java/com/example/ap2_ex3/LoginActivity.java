@@ -12,15 +12,15 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
-        TextView textView = findViewById(R.id.registeredText);
-        String unregisteredText = getResources().getString(R.string.AlreadyRegisteredText);
+        TextView textView = findViewById(R.id.unregisteredText);
+        String unregisteredText = getResources().getString(R.string.unregisteredText);
         SpannableString spannableString = new SpannableString(unregisteredText);
 
 // Create a ClickableSpan for the word "here"
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Handle the click event here, start the registering activity
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             }
 

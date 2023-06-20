@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,42 +28,17 @@
             android:layout_marginTop="8dp"
             android:inputType="textPassword" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/confirm_password_text"
-            android:layout_marginTop="8dp"
-            android:inputType="textPassword" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/display_name_text" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/picture_text" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/checkbox" />
-
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/signUp"/>
+            android:text="@string/loginBtn"/>
         <TextView
-            android:id="@+id/registeredText"
+            android:id="@+id/unregisteredText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/AlreadyRegisteredText" />
+            android:text="@string/unregisteredText" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
