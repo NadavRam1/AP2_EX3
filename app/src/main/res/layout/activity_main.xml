@@ -52,13 +52,13 @@
             android:hint="@string/display_name_text"
             android:autofillHints="displayName"/>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="8dp"
-            android:inputType="none"
-            android:hint="@string/picture_text"
-            android:autofillHints="picture"/>
+            android:src="@drawable/placeholder_image"
+            android:onClick="selectImage" />
 
         <CheckBox
             android:id="@+id/robotCheck"

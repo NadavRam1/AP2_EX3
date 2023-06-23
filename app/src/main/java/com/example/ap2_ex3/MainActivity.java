@@ -3,23 +3,28 @@ package com.example.ap2_ex3;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.regex.Pattern;
 
+public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_IMAGE_PICK = 1;
     EditText username, password, verifyPassword, displayName;
     CheckBox robotCheck;
-    boolean isAllFieldsChecked = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +71,7 @@ public class MainActivity extends AppCompatActivity {
         robotCheck = findViewById(R.id.robotCheck);
 
         signUpButton.setOnClickListener(view -> {
-            isAllFieldsChecked = CheckAllFields();
-
-            if(isAllFieldsChecked) {
+            if(CheckAllFields()) {
                 //creates another intent and transfer to login after saving the data
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -84,24 +87,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (password.length() == 0) {
-            username.setError("This field is required");
+            password.setError("This field is required");
             return false;
-        } else if (password.length() < 8) {
-            password.setError("Password must be minimum 8 characters");
-            return false; //add more logic like in js
         }
-
         if (verifyPassword.length() == 0) {
-            username.setError("This field is required");
+            verifyPassword.setError("This field is required");
             return false;
-        } else if (password.length() < 8) {
-            password.setError("Password must be minimum 8 characters");
-            return false; //add more logic like in js
         }
-//        else if (!password.equals(verifyPassword)) {
-//            verifyPassword.setError("The password must match in both fields"); //not working
-//        }
-
         if (displayName.length() == 0) {
             displayName.setError("This field is required");
             return false;
@@ -110,6 +102,67 @@ public class MainActivity extends AppCompatActivity {
             robotCheck.setError("This field is required");
             return false;
         }
+
+
+        Pattern usernamePattern = Pattern.compile("^[a-zA-Z]+$");
+        if (!usernamePattern.matcher(username.getText().toString()).matches()) {
+            username.setError("Username must contain only letters");
+            return false;
+        }
+
+        if (password.length() < 8) {
+            password.setError("Password must be minimum 8 characters");
+            return false;
+        }
+
+        Pattern passwordPattern = Pattern.compile("^[a-zA-Z1-9!*]+$");
+        if (!passwordPattern.matcher(password.getText().toString()).matches()) {
+            password.setError("Password must contain only letters digits or !/*");
+            return false;
+        }
+
+        Pattern digitPattern = Pattern.compile("^.*[1-9].*$");
+        if (!digitPattern.matcher(password.getText().toString()).matches()) {
+            password.setError("Password must contain at least one digit");
+            return false;
+        }
+
+        Pattern lowerPattern = Pattern.compile("^.*[a-z].*$");
+        if (!lowerPattern.matcher(password.getText().toString()).matches()) {
+            password.setError("Password must contain at least one lowercase letter");
+            return false;
+        }
+
+        Pattern upperPattern = Pattern.compile("^.*[A-Z].*$");
+        if (!upperPattern.matcher(password.getText().toString()).matches()) {
+            password.setError("Password must contain at least one uppercase letter");
+            return false;
+        }
+
+        if (!password.getText().toString().equals(verifyPassword.getText().toString())) {
+            verifyPassword.setError("The password must match in both fields");
+            return false;
+        }
+
+        if (!usernamePattern.matcher(displayName.getText()).matches()) {
+            displayName.setError("display name must contain only letters");
+            return false;
+        }
+
         return true;
+    }
+
+    public void selectImage(View view) {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_IMAGE_PICK);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+            ImageView imageView = findViewById(R.id.imageView);
+            imageView.setImageURI(selectedImageUri);
+        }
     }
 }
