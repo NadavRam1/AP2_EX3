@@ -22,4 +22,6 @@
     <string name="home_navChats">Chats</string>
     <string name="register_navMessage">Register</string>
     <string name="danger_category">Danger</string>
+    <string name="add_text">Add</string>
+    <string name="BaseUrl">http://10.0.2.2:5000/swagger/index.html</string>
 </resources>

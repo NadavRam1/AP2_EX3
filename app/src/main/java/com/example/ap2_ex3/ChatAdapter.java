@@ -42,6 +42,10 @@ public class ChatAdapter extends BaseAdapter {
         return 0;
     }
 
+    public void setChats(List<Chat> c) {
+        chats = c;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null) {

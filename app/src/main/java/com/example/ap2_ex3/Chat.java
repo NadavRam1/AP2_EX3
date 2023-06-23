@@ -1,7 +1,13 @@
 package com.example.ap2_ex3;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Chat {
 
+    @PrimaryKey(autoGenerate=true)
+    private int id;
     private String displayName;
     private int profilePic;
     private String lastMessage;
@@ -12,6 +18,14 @@ public class Chat {
         this.profilePic = profilePic;
         this.lastMessage = lastMessage;
         this.lastMessageTime = lastMessageTime;
+    }
+
+    public Chat() {
+
+    }
+
+    public Chat(String displayName) {
+        this.displayName = displayName;
     }
 
     public void setDisplayName(String displayName) {
@@ -29,7 +43,12 @@ public class Chat {
     public void setLastMessageTime(String lastMessageTime) {
         this.lastMessageTime = lastMessageTime;
     }
-
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int getId() {
+        return id;
+    }
     public String getDisplayName() {
         return displayName;
     }
