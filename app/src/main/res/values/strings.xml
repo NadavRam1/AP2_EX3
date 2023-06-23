@@ -7,7 +7,7 @@
     <string name="picture_text">picture</string>
     <string name="checkbox">I\'m not a robot</string>
     <string name="signUp">Sign Up</string>
-    <string name="AlreadyRegisteredText">ALready registered? click here to login</string>
+    <string name="AlreadyRegisteredText">Already registered? click here to login</string>
     <string name="loginBtn">Login</string>
     <string name="unregisteredText">Unregistered? Click here to sign up</string>
 </resources>

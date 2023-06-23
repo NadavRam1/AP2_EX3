@@ -10,10 +10,14 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
 
+    EditText username, password;
+    boolean isAllFieldsChecked = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,5 +56,36 @@ public class LoginActivity extends AppCompatActivity {
         textView.setText(spannableString);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
 
+        Button loginButton = findViewById(R.id.loginButton);
+        username = findViewById(R.id.username);
+        password = findViewById(R.id.password);
+
+        loginButton.setOnClickListener(view -> {
+            isAllFieldsChecked = CheckAllFields();
+
+            if(isAllFieldsChecked) {
+                //creates another intent and transfer to login after saving the data
+            }
+        });
+
+
+
     }
+    private boolean CheckAllFields() {
+        if(username.length() == 0) {
+            username.setError("This field is required");
+            return false;
+        }
+
+        if(password.length() == 0) {
+            username.setError("This field is required");
+            return false;
+        } else if (password.length() < 8) {
+            password.setError("Password must be minimum 8 characters");
+            return false; //add more logic like in js
+        }
+
+        return true;
+    }
+
 }
