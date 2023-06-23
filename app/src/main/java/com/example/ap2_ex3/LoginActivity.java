@@ -64,7 +64,8 @@ public class LoginActivity extends AppCompatActivity {
             isAllFieldsChecked = CheckAllFields();
 
             if(isAllFieldsChecked) {
-                //creates another intent and transfer to login after saving the data
+                Intent tempIntent = new Intent(LoginActivity.this, MenuActivity.class);
+                startActivity(tempIntent);
             }
         });
 

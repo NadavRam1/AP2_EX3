@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
             if(isAllFieldsChecked) {
                 //creates another intent and transfer to login after saving the data
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -95,9 +97,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (password.length() < 8) {
             password.setError("Password must be minimum 8 characters");
             return false; //add more logic like in js
-        } else if (!password.equals(verifyPassword)) {
-            verifyPassword.setError("The password must match in both fields"); //not working
         }
+//        else if (!password.equals(verifyPassword)) {
+//            verifyPassword.setError("The password must match in both fields"); //not working
+//        }
 
         if (displayName.length() == 0) {
             displayName.setError("This field is required");
