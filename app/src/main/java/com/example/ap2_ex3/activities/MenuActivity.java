@@ -1,4 +1,4 @@
-package com.example.ap2_ex3;
+package com.example.ap2_ex3.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,22 +8,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Switch;
 
-import com.example.ap2_ex3.ChatsFragment;
-import com.example.ap2_ex3.HomeFragment;
+import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.fragments.ChatsFragment;
+import com.example.ap2_ex3.fragments.HomeFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.ArrayList;
-import java.util.List;
-import com.google.android.material.appbar.MaterialToolbar;
 
 public class MenuActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.ap2_ex3;
+package com.example.ap2_ex3.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,10 +7,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ap2_ex3.Chat;
+import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.entities.Chat;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ChatAdapter extends BaseAdapter {
 
@@ -23,7 +23,7 @@ public class ChatAdapter extends BaseAdapter {
         ImageView profilePic;
     }
 
-    public ChatAdapter(List<Chat> chats) {
+    public ChatAdapter() {
         this.chats = chats;
     }
 

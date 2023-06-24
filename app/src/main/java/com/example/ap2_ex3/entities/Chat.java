@@ -1,9 +1,10 @@
-package com.example.ap2_ex3;
+package com.example.ap2_ex3.entities;
 
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "ChatsDB", indices = @Index(value = {"id"},unique = true))
 public class Chat {
 
     @PrimaryKey(autoGenerate=true)
@@ -43,12 +44,6 @@ public class Chat {
     public void setLastMessageTime(String lastMessageTime) {
         this.lastMessageTime = lastMessageTime;
     }
-    public void setId(int id) {
-        this.id = id;
-    }
-    public int getId() {
-        return id;
-    }
     public String getDisplayName() {
         return displayName;
     }
@@ -63,6 +58,13 @@ public class Chat {
 
     public String getLastMessageTime() {
         return lastMessageTime;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int getId() {
+        return id;
     }
 
     public void select() {

@@ -6,7 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Chat.class}, version = 1)
+import com.example.ap2_ex3.daos.ChatDao;
+import com.example.ap2_ex3.entities.Chat;
+
+@Database(entities = {Chat.class}, version = 2)
 public abstract class AppDB extends RoomDatabase {
     public abstract ChatDao chatDao();
 

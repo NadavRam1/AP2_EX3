@@ -1,6 +1,8 @@
 package com.example.ap2_ex3;
 
 
+import com.example.ap2_ex3.entities.Chat;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -12,14 +14,34 @@ import retrofit2.http.Path;
 
 public interface WebServiceAPI {
 
-    @GET("chats")
-    Call<List<Chat>> getChats();
+    @GET("api/Chats")
+    Call<List<Chat>> getAllChats();
 
-    @POST("chats")
+    @POST("api/Chats")
     Call<Void> createChat(@Body Chat chat);
+
+    @GET("api/Chats/{id}")
+    Call<Chat> getChat(@Path("id") int id);
 
     @DELETE("chats/{id}")
     Call<Void> deleteChat(@Path("id") int id);
+
+    @POST("api/Chats/{id}/Messages")
+    Call<Void> createMessage(@Path("id") int id);
+
+    @GET("api/Chats/{id}/Messages")
+    Call<Void> getMessage(@Path("id") int id);
+
+    @POST("api/Tokens")
+    Call<Void> createToken(@Body String s);
+
+    @GET("api/Users/{username}")
+    Call<Void> getUser(@Path("username") String username);
+
+//    @POST("api/Tokens")
+//    Call<Void> createUser(@Body s); //need user object?
+
+
 
 
 }
