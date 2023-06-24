@@ -15,6 +15,7 @@ import com.example.ap2_ex3.entities.Chat;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -42,9 +43,7 @@ public class ChatsRepository {
 //        new InsertAsyncTask((appDB).execute(chatList));
 //    }
 //
-    public LiveData<List<Chat>> getAllChats() {
-        return getAllChats;
-    }
+
 //
 //    class InsertAsyncTask extends AsyncTask<List<Chat>, Void, Void> {
 //        private ChatDao chatDao;
@@ -59,41 +58,41 @@ public class ChatsRepository {
 //    }
 
 
-    class ChatListData extends MutableLiveData<List<Chat>> {
-        public ChatListData() {
-            super();
-
-
-        }
-
-        @Override
-        protected void onActive() {
-            super.onActive();
-
-            new Thread(() -> {
-                List<Chat> chats = new LinkedList<>();
-                for(int i = 0; i < 20; i++) {
-                    chats.add(new Chat("Nadav " + i, R.drawable.ic_launcher_background, "", ""));
-                }
-                setValue(chats);
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-//                ChatAPI chatAPI = new ChatAPI();
-//                chatAPI.get(this);
-            }).start();
-
-
-
+//    class ChatListData extends MutableLiveData<List<Chat>> {
+//        public ChatListData() {
+//            super();
+//
+//
+//        }
+//
+//        @Override
+//        protected void onActive() {
+//            super.onActive();
+//
 //            new Thread(() -> {
-//                chatListData.postValue(chatDao.get());
+//                List<Chat> chats = new LinkedList<>();
+//                for(int i = 0; i < 20; i++) {
+//                    chats.add(new Chat("Nadav " + i, R.drawable.ic_launcher_background, "", ""));
+//                }
+//                setValue(chats);
+//                try {
+//                    Thread.sleep(10000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+////                ChatAPI chatAPI = new ChatAPI();
+////                chatAPI.get(this);
 //            }).start();
-
-
-        }
-    }
+//
+//
+//
+////            new Thread(() -> {
+////                chatListData.postValue(chatDao.get());
+////            }).start();
+//
+//
+//        }
+//    }
 
 //    public LiveData<List<Chat>> getAllChats() throws ExecutionException, InterruptedException {
 ////        return chatListData;
@@ -101,12 +100,17 @@ public class ChatsRepository {
 //        return chatDao.getAllChats();
 //    }
 
+    public LiveData<List<Chat>> getAllChats() {
+        return getAllChats;
+    }
+
     public Chat get(int id) {
         return chatDao.get(id);
     }
 
     public void insert(final Chat chat) {
         //api.add(chat);
+//        new InsertTask(chatDao).execute(chat);
         executor.execute(() -> chatDao.insert(chat));
     }
 
@@ -130,5 +134,19 @@ public class ChatsRepository {
         //api.get(this);
 
     }
+
+//    private static class InsertTask extends AsyncTask<Chat, Void, Void> {
+//
+//        private ChatDao chatDao;
+//
+//        public InsertTask(ChatDao chatDao) {
+//            this.chatDao = chatDao;
+//        }
+//        @Override
+//        protected Void doInBackground(Chat... chats) {
+//            chatDao.insert(chats[0]);
+//            return null;
+//        }
+//    }
 
 }

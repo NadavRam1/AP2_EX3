@@ -70,4 +70,15 @@ public class Chat {
     public void select() {
         displayName = displayName + " selected";
     }
+
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "id=" + id +
+                ", displayName='" + displayName + '\'' +
+                ", profilePic=" + profilePic +
+                ", lastMessage='" + lastMessage + '\'' +
+                ", lastMessageTime='" + lastMessageTime + '\'' +
+                '}';
+    }
 }

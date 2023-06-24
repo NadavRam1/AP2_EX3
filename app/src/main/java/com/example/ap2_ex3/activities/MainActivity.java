@@ -11,21 +11,41 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.ap2_ex3.AppDB;
 import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.WebServiceAPI;
+import com.example.ap2_ex3.entities.Chat;
+import com.example.ap2_ex3.entities.User;
+import com.example.ap2_ex3.repositories.UsersRepository;
+import com.google.gson.Gson;
 
+import java.util.List;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_PICK = 1;
+    private static final String URL_DATA = "http://10.0.2.2:5000/swagger/index.html/";
     EditText username, password, verifyPassword, displayName;
+    private ImageView profilePic;
     CheckBox robotCheck;
+
+    UsersRepository usersRepository;
+//    AppDB appDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(view -> {
             if(CheckAllFields()) {
                 //creates another intent and transfer to login after saving the data
+                networkRequest();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -81,6 +102,42 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    private void networkRequest() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL_DATA)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WebServiceAPI api = retrofit.create(WebServiceAPI.class);
+        User user = new User(username.getText().toString(),
+                password.getText().toString(),
+                displayName.getText().toString(),
+                profilePic.toString());
+        Call<User> call = api.createUser(user);
+        usersRepository = new UsersRepository(getApplication());
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    usersRepository.insert(response.body());
+                } else {
+                    // Handle the case when the response is not successful or the body is null
+                    Toast.makeText(getApplicationContext(), String.valueOf(response.code()), Toast.LENGTH_LONG).show();
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+        });
+    }
+    
+    
+    
+    
     private boolean CheckAllFields() {
         if (username.length() == 0) {
             username.setError("This field is required");
@@ -163,8 +220,8 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
-            ImageView imageView = findViewById(R.id.imageView);
-            imageView.setImageURI(selectedImageUri);
+            profilePic = findViewById(R.id.profilePic);
+            profilePic.setImageURI(selectedImageUri);
         }
     }
 }

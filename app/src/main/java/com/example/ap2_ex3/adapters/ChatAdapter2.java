@@ -42,7 +42,10 @@ public class ChatAdapter2 extends RecyclerView.Adapter<ChatAdapter2.ChatViewHold
     }
 
     public void setAllChats(List<Chat> chatList) {
-        this.chatList = chatList;
+        if(chatList != null) {
+            this.chatList = chatList;
+        }
+        notifyDataSetChanged();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.ap2_ex3;
 
 
 import com.example.ap2_ex3.entities.Chat;
+import com.example.ap2_ex3.entities.User;
 
 import java.util.List;
 
@@ -38,8 +39,8 @@ public interface WebServiceAPI {
     @GET("api/Users/{username}")
     Call<Void> getUser(@Path("username") String username);
 
-//    @POST("api/Tokens")
-//    Call<Void> createUser(@Body s); //need user object?
+    @POST("/api/Users")
+    Call<User> createUser(@Body User user); //need user object?
 
 
 

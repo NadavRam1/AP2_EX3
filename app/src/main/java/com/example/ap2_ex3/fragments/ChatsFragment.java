@@ -63,10 +63,13 @@ public class ChatsFragment extends Fragment {
         lstFeed.setHasFixedSize(true);
         lstFeed.setLayoutManager(new LinearLayoutManager(getContext()));
         lstFeed.setItemAnimator(new DefaultItemAnimator());
+
         chatsRepository = new ChatsRepository(getActivity().getApplication());
+
         chats = new ArrayList<>();
         //chats.add(new Chat("Nadav1", getResources().getIdentifier("ic_launcher", "drawable", getActivity().getPackageName()), "", ""));
         chatAdapter = new ChatAdapter2(getContext(), chats);
+
 
         lstFeed.setAdapter(chatAdapter);
 
@@ -80,9 +83,23 @@ public class ChatsFragment extends Fragment {
             startActivity(i);
         });
 
+
+
         chatsViewModel.getAllChats().observe(getActivity(), new Observer<List<Chat>>() {
             @Override
             public void onChanged(List<Chat> chatList) {
+
+//               // chats.clear();
+//                chats = chatDao.getAllChats();
+//                for (Chat chat : chats){
+//                    chats.add(chat.getId() + "," + post.getContent());
+//                    }
+//                28
+//                29 adapter.notifyDataSetChanged();
+
+
+
+
                 Log.d("check", "on change");
 //                chats.clear();
 //                chats = chatsRepository.getAllChats();
@@ -98,6 +115,15 @@ public class ChatsFragment extends Fragment {
     }
 
 
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 1) {
+//            String displayName = data.getStringExtra("displayName");
+//            Toast.makeText(getContext(), "contact added", Toast.LENGTH_LONG).show();
+//            chatsViewModel.insert(new Chat(displayName));
+//        }
+//    }
 
 //    private void networkRequest() {
 //        Retrofit retrofit = new Retrofit.Builder()
@@ -173,6 +199,7 @@ public class ChatsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         chats.clear();
+//        chatDao.getAllChats();
         chatAdapter.notifyDataSetChanged();
     }
 //
