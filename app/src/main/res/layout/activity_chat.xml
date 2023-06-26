@@ -85,25 +85,48 @@
             android:layout_height="match_parent"
             android:dividerHeight="5dp" />
     </LinearLayout>
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+          android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="horizontal">
+       android:orientation="horizontal"
+        android:background="@color/white">
+
+
         <EditText
             android:id="@+id/messageBar"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/message_hint" />
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16sp"
+            android:layout_marginEnd="10dp"
+            android:hint="@string/message_hint"
+            android:textColorHint="@color/black"
+            android:paddingLeft="16dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:drawableLeft="@drawable/ic_btn_emoji"
+            android:background="@drawable/rounded_white_background"
+            android:drawablePadding="6dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/recordOrSendBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_btn_record" />
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_btn_record"
+            android:backgroundTint="@color/barGreen"
+            android:layout_margin="10dp"
+            app:shapeAppearance="@style/Widget.Material3.CircularProgressIndicator"/>
 
 
-    </LinearLayout>
+
+        </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
