@@ -61,10 +61,10 @@ public class ChatAdapter extends BaseAdapter {
         }
         Chat c = chats.get(position);
         ViewHolder viewHolder = (ViewHolder) convertView.getTag();
-        viewHolder.displayName.setText(c.getDisplayName());
-        viewHolder.profilePic.setImageResource(c.getProfilePic());
-        viewHolder.lastMessage.setText(c.getLastMessage());
-        viewHolder.lastMessageTime.setText(c.getLastMessageTime());
+        viewHolder.displayName.setText(c.getUser().getDisplayName());
+//        viewHolder.profilePic.setImageResource(c.getUser().getProfilePic());
+        viewHolder.lastMessage.setText(c.getLastMessage().getContent());
+        viewHolder.lastMessageTime.setText(c.getLastMessage().getTime());
 
         return convertView;
 

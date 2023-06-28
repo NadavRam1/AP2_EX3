@@ -35,10 +35,10 @@ public class ChatAdapter2 extends RecyclerView.Adapter<ChatAdapter2.ChatViewHold
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         Chat chat = chatList.get(position);
-        holder.displayName.setText(chat.getDisplayName());
-        holder.lastMessage.setText(chat.getLastMessage());
-        holder.lastMessageTime.setText(chat.getLastMessageTime());
-        holder.profilePic.setImageResource(chat.getProfilePic());
+        holder.displayName.setText(chat.getUser().getDisplayName());
+        holder.lastMessage.setText(chat.getLastMessage().getContent());
+        holder.lastMessageTime.setText(chat.getLastMessage().getTime());
+//        holder.profilePic.setImageResource(chat.getUser().getProfilePic());
     }
 
     public void setAllChats(List<Chat> chatList) {

@@ -1,23 +1,24 @@
 package com.example.ap2_ex3.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.example.ap2_ex3.converters.UserConverter;
+import com.example.ap2_ex3.converters.UserNameConverter;
 
 @Entity(tableName = "MessagesDB", indices = @Index(value = {"id"},unique = true))
-@TypeConverters({UserConverter.class})
+@TypeConverters({UserNameConverter.class})
 public class Message {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String content;
     private String time;
 
-    private User sender;
+    private UserName sender;
 
-    public Message(int id, String content, String time, User sender) {
+    public Message(int id, String content, String time, UserName sender) {
         this.id = id;
         this.content = content;
         this.time = time;
@@ -48,11 +49,18 @@ public class Message {
         this.time = time;
     }
 
-    public User getSender() {
+    public UserName getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(UserName sender) {
         this.sender = sender;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "{" + id + ", " + time +
+                ", " + content + ", " + sender.getUsername() + "}";
     }
 }

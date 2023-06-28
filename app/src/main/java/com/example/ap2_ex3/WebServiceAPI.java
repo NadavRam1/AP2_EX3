@@ -4,6 +4,7 @@ package com.example.ap2_ex3;
 import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.entities.UserCredentials;
+import com.example.ap2_ex3.entities.UserName;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface WebServiceAPI {
     Call<List<Chat>> getAllChats(@Header("Authorization") String token);
 
     @POST("api/Chats")
-    Call<Void> createChat(@Header("Authorization") String token, @Body String username);
+    Call<Chat> createChat(@Header("Authorization") String token, @Body UserName username);
 
     @GET("api/Chats/{id}")
     Call<Chat> getChat(@Header("Authorization") String token, @Path("id") int id);

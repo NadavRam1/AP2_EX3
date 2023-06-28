@@ -1,65 +1,30 @@
 package com.example.ap2_ex3.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.example.ap2_ex3.converters.MessagesConverter;
+import com.example.ap2_ex3.converters.UserConverter;
+
+import java.util.List;
 
 @Entity(tableName = "ChatsDB", indices = @Index(value = {"id"},unique = true))
+@TypeConverters({UserConverter.class, MessagesConverter.class})
 public class Chat {
 
-    @PrimaryKey(autoGenerate=true)
+    @PrimaryKey
     private int id;
-    private String displayName;
-    private int profilePic;
-    private String lastMessage;
-    private String lastMessageTime;
+    private User user;
+    private List<Message> messages;
 
-    public Chat(String displayName, int profilePic, String lastMessage, String lastMessageTime) {
-        this.displayName = displayName;
-        this.profilePic = profilePic;
-        this.lastMessage = lastMessage;
-        this.lastMessageTime = lastMessageTime;
+    public Chat(int id, User user, List<Message> messages) {
+        this.id = id;
+        this.user = user;
+        this.messages = messages;
     }
-
-    public Chat() {
-
-    }
-
-    public Chat(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public void setProfilePic(int profilePic) {
-        this.profilePic = profilePic;
-    }
-
-    public void setLastMessage(String lastMessage) {
-        this.lastMessage = lastMessage;
-    }
-
-    public void setLastMessageTime(String lastMessageTime) {
-        this.lastMessageTime = lastMessageTime;
-    }
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public int getProfilePic() {
-        return profilePic;
-    }
-
-    public String getLastMessage() {
-        return lastMessage;
-    }
-
-    public String getLastMessageTime() {
-        return lastMessageTime;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -67,18 +32,30 @@ public class Chat {
         return id;
     }
 
-    public void select() {
-        displayName = displayName + " selected";
+    public User getUser() {
+        return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public Message getLastMessage() {
+        return messages.get(messages.size() - 1);
+    }
+
+    @NonNull
     @Override
     public String toString() {
-        return "Chat{" +
-                "id=" + id +
-                ", displayName='" + displayName + '\'' +
-                ", profilePic=" + profilePic +
-                ", lastMessage='" + lastMessage + '\'' +
-                ", lastMessageTime='" + lastMessageTime + '\'' +
-                '}';
+        return "{" + id + ", " + user +
+                ", " + messages.toString() + "}";
     }
 }

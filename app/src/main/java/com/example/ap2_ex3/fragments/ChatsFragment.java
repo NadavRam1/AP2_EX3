@@ -1,7 +1,10 @@
 package com.example.ap2_ex3.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ap2_ex3.AppDB;
 import com.example.ap2_ex3.WebServiceAPI;
 import com.example.ap2_ex3.activities.AddContactActivity;
+import com.example.ap2_ex3.activities.LoginActivity;
 import com.example.ap2_ex3.adapters.ChatAdapter;
 import com.example.ap2_ex3.adapters.ChatAdapter2;
 import com.example.ap2_ex3.daos.ChatDao;
@@ -41,7 +45,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ChatsFragment extends Fragment {
 
     private ChatsViewModel chatsViewModel;
-    private static final String URL_DATA = "http://localhost:5000/swagger/index.html/";
+    private static final String URL_DATA = "http://10.0.2.2:5000/";
     private RecyclerView lstFeed;
     private ChatAdapter2 chatAdapter;
     private List<Chat> chats;
@@ -65,52 +69,44 @@ public class ChatsFragment extends Fragment {
         lstFeed.setItemAnimator(new DefaultItemAnimator());
 
         chatsRepository = new ChatsRepository(getActivity().getApplication());
-
         chats = new ArrayList<>();
+
         //chats.add(new Chat("Nadav1", getResources().getIdentifier("ic_launcher", "drawable", getActivity().getPackageName()), "", ""));
         chatAdapter = new ChatAdapter2(getContext(), chats);
-
-
         lstFeed.setAdapter(chatAdapter);
-
-
         chatsViewModel = new ViewModelProvider(this).get(ChatsViewModel.class);
 
         FloatingActionButton addButton = view.findViewById(R.id.addButton);
-
         addButton.setOnClickListener(v -> {
             Intent i = new Intent(getActivity(), AddContactActivity.class);
             startActivity(i);
         });
-
-
-
-        chatsViewModel.getAllChats().observe(getActivity(), new Observer<List<Chat>>() {
-            @Override
-            public void onChanged(List<Chat> chatList) {
-
+//        chatsViewModel.getAllChats().observe(getActivity(), new Observer<List<Chat>>() {
+//            @Override
+//            public void onChanged(List<Chat> chatList) {
+//
 //               // chats.clear();
-//                chats = chatDao.getAllChats();
-//                for (Chat chat : chats){
-//                    chats.add(chat.getId() + "," + post.getContent());
-//                    }
-//                28
-//                29 adapter.notifyDataSetChanged();
-
-
-
-
-                Log.d("check", "on change");
-//                chats.clear();
-//                chats = chatsRepository.getAllChats();
-                lstFeed.setAdapter(chatAdapter);
-                chatAdapter.setAllChats(chats);
-
-                chatAdapter.notifyDataSetChanged();
-            }
-        });
-
-//        networkRequest();/
+//                chats = chatDao.getAllChats().getValue();
+//                if (chats == null) {
+//                    Log.i("FUCK", "CHATSISNULL");
+//                }
+//                for (Chat chat : chats) {
+//                    chats.add(chat.getId() + "," + chat.getContent());
+//                }
+//                chatAdapter.notifyDataSetChanged();
+//
+//
+//
+//
+//                Log.d("check", "on change");
+////                chats.clear();
+////                chats = chatsRepository.getAllChats();
+//                lstFeed.setAdapter(chatAdapter);
+//                chatAdapter.setAllChats(chats);
+//
+//                chatAdapter.notifyDataSetChanged();
+//            }
+//        });
         return view;
     }
 
@@ -125,25 +121,34 @@ public class ChatsFragment extends Fragment {
 //        }
 //    }
 
-//    private void networkRequest() {
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(URL_DATA)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        WebServiceAPI api = retrofit.create(WebServiceAPI.class);
-//        Call<List<Chat>> call = api.getAllChats();
-//        call.enqueue(new Callback<List<Chat>>() {
-//            @Override
-//            public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
-//                chatsRepository.insertList(response.body());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Chat>> call, Throwable t) {
-//                Toast.makeText(getContext(), "something wrong fuck you", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
+    private void networkRequest() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL_DATA)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WebServiceAPI api = retrofit.create(WebServiceAPI.class);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+        String token = sharedPref.getString("token", "");
+        Call<List<Chat>> call = api.getAllChats(token);
+        call.enqueue(new Callback<List<Chat>>() {
+            @Override
+            public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
+                if (response.code() == 200) {
+                    // update chats repository
+                    Log.d("chats", response.body().toString());
+                } else {
+                    Log.i("code", String.valueOf(response.code()));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Chat>> call, Throwable t) {
+                Log.i("failure", t.getMessage());
+                Toast.makeText(getContext(), "something wrong fuck you", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
 
 
@@ -199,8 +204,8 @@ public class ChatsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         chats.clear();
-//        chatDao.getAllChats();
         chatAdapter.notifyDataSetChanged();
+        networkRequest();
     }
 //
 //    @Override
