@@ -24,4 +24,16 @@
     <string name="danger_category">Danger</string>
     <string name="add_text">Add</string>
     <string name="BaseUrl">http://10.0.2.2:5000/</string>
+    <string name="choosePic">choose a picture from your local storage
+                 (click on the icon below)</string>
+    <string name="home_fragment_message">
+        Welcome to the GOAT\'s Whatsapp
+        now available for Android!!!
+
+        You may press on the menu at the top left
+        corner and start using our app
+
+        We hope you will have a great time :)
+
+    </string>
 </resources>
