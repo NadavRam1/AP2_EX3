@@ -3,8 +3,12 @@ package com.example.ap2_ex3.entities;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.example.ap2_ex3.converters.UserConverter;
 
 @Entity(tableName = "MessagesDB", indices = @Index(value = {"id"},unique = true))
+@TypeConverters({UserConverter.class})
 public class Message {
     @PrimaryKey(autoGenerate = true)
     private int id;

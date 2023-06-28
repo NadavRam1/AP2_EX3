@@ -1,25 +1,35 @@
 package com.example.ap2_ex3.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-
 import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.WebServiceAPI;
+import com.example.ap2_ex3.entities.UserCredentials;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText username, password;
+    private static final String URL_DATA = "http://10.0.2.2:5000/";
     boolean isAllFieldsChecked = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,22 +75,56 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton.setOnClickListener(view -> {
             isAllFieldsChecked = CheckAllFields();
-
             if(isAllFieldsChecked) {
-                Intent tempIntent = new Intent(LoginActivity.this, MenuActivity.class);
-                startActivity(tempIntent);
+                networkRequest();
             }
         });
-
-
-
     }
+
+    private void networkRequest() {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL_DATA)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        WebServiceAPI api = retrofit.create(WebServiceAPI.class);
+        UserCredentials user = new UserCredentials(
+                username.getText().toString(),
+                password.getText().toString()
+        );
+        Call<String> call = api.createToken(user);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.code() == 200) {
+                    String token = response.body();
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("token", "Bearer " + token);
+                    editor.putString("me", username.getText().toString());
+                    editor.apply();
+                    Intent tempIntent = new Intent(LoginActivity.this, MenuActivity.class);
+                    startActivity(tempIntent);
+                }
+                Log.i("code", String.valueOf(response.code()));
+                // Handle the case when the response is not successful or the body is null
+                username.setError(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.i("failure", t.getMessage());
+            }
+        });
+    }
+
     private boolean CheckAllFields() {
         if(username.length() == 0) {
             username.setError("This field is required");
             return false;
         }
-
         if(password.length() == 0) {
             username.setError("This field is required");
             return false;
@@ -88,8 +132,6 @@ public class LoginActivity extends AppCompatActivity {
             password.setError("Password must be minimum 8 characters");
             return false; //add more logic like in js
         }
-
         return true;
     }
-
 }

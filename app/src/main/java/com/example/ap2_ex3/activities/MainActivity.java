@@ -11,7 +11,6 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,15 +19,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ap2_ex3.AppDB;
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.WebServiceAPI;
-import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.repositories.UsersRepository;
-import com.google.gson.Gson;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
@@ -39,12 +34,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_PICK = 1;
-    private static final String URL_DATA = "http://10.0.2.2:5000/swagger/index.html/";
+    private static final String URL_DATA = "http://10.0.2.2:5000/";
     EditText username, password, verifyPassword, displayName;
     private ImageView profilePic;
     CheckBox robotCheck;
-
     UsersRepository usersRepository;
+    private boolean requestValid = true;
 //    AppDB appDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,23 +84,20 @@ public class MainActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         verifyPassword = findViewById(R.id.verifyPassword);
         displayName = findViewById(R.id.displayName);
+        profilePic = findViewById(R.id.profilePic);
         robotCheck = findViewById(R.id.robotCheck);
 
         signUpButton.setOnClickListener(view -> {
             if(CheckAllFields()) {
-                //creates another intent and transfer to login after saving the data
                 networkRequest();
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
             }
         });
-
     }
 
 
-    private void networkRequest() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL_DATA)
+   private void networkRequest() {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(URL_DATA)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);
@@ -118,26 +110,29 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.code() == 200) {
                     usersRepository.insert(response.body());
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 } else {
                     // Handle the case when the response is not successful or the body is null
-                    Toast.makeText(getApplicationContext(), String.valueOf(response.code()), Toast.LENGTH_LONG).show();
+                    username.setError(String.valueOf(response));
                 }
             }
 
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                requestValid = false;
                 Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
 
         });
     }
-    
-    
-    
-    
+
+
+
+
     private boolean CheckAllFields() {
         if (username.length() == 0) {
             username.setError("This field is required");
@@ -156,18 +151,19 @@ public class MainActivity extends AppCompatActivity {
             displayName.setError("This field is required");
             return false;
         }
+        if (profilePic == null) {
+            return false;
+        }
         if (!robotCheck.isChecked()) {
             robotCheck.setError("This field is required");
             return false;
         }
-
 
         Pattern usernamePattern = Pattern.compile("^[a-zA-Z]+$");
         if (!usernamePattern.matcher(username.getText().toString()).matches()) {
             username.setError("Username must contain only letters");
             return false;
         }
-
         if (password.length() < 8) {
             password.setError("Password must be minimum 8 characters");
             return false;
@@ -196,17 +192,14 @@ public class MainActivity extends AppCompatActivity {
             password.setError("Password must contain at least one uppercase letter");
             return false;
         }
-
         if (!password.getText().toString().equals(verifyPassword.getText().toString())) {
             verifyPassword.setError("The password must match in both fields");
             return false;
         }
-
         if (!usernamePattern.matcher(displayName.getText()).matches()) {
             displayName.setError("display name must contain only letters");
             return false;
         }
-
         return true;
     }
 

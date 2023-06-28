@@ -9,8 +9,6 @@ import com.example.ap2_ex3.entities.Message;
 
 import java.util.List;
 
-import retrofit2.http.GET;
-
 @Dao
 public interface MessageDao {
 
@@ -23,7 +21,7 @@ public interface MessageDao {
     @Insert
     void insertList(List<Message> messageList);
 
-    @GET
+    @Query("SELECT * FROM MessagesDB WHERE id = :id")
     Message get(int id);
 
 }

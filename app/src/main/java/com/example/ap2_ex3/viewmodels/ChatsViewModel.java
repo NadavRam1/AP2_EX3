@@ -24,9 +24,6 @@ public class ChatsViewModel extends AndroidViewModel {
         super(application);
         chatsRepository = new ChatsRepository(application);
         chats = chatsRepository.getAllChats();
-
-
-
     }
 
     public LiveData<List<Chat>> getAllChats() {
