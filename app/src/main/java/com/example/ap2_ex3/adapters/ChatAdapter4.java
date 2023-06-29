@@ -3,6 +3,7 @@ package com.example.ap2_ex3.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class ChatAdapter4 extends RecyclerView.Adapter<ChatAdapter4.ChatViewHolder> {
     private List<Chat> chatList = new ArrayList<>();
+    private OnItemClickListener listener;
 
     @NonNull
     @Override
@@ -55,7 +57,7 @@ public class ChatAdapter4 extends RecyclerView.Adapter<ChatAdapter4.ChatViewHold
         notifyDataSetChanged();
     }
 
-    static class ChatViewHolder extends RecyclerView.ViewHolder {
+    class ChatViewHolder extends RecyclerView.ViewHolder {
         private TextView displayName, lastMessage, lastMessageTime;
         private ImageView profilePic;
 
@@ -65,6 +67,24 @@ public class ChatAdapter4 extends RecyclerView.Adapter<ChatAdapter4.ChatViewHold
             lastMessage = itemView.findViewById(R.id.feed_chat_last_message);
             lastMessageTime = itemView.findViewById(R.id.feed_chat_last_message_time);
             profilePic = itemView.findViewById(R.id.feed_chat_profile_pic);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(chatList.get(position));
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Chat chat);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }

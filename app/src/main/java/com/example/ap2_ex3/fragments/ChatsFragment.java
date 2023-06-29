@@ -1,5 +1,6 @@
 package com.example.ap2_ex3.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,11 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.activities.AddContactActivity;
+import com.example.ap2_ex3.activities.ChatActivity;
 import com.example.ap2_ex3.adapters.ChatAdapter4;
+import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.viewmodels.ChatsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 //
 public class ChatsFragment extends Fragment {
+    private static final int REQUEST_CODE = 1;
+    int tempPosition;
     private RecyclerView lstFeed;
     private ChatAdapter4 chatAdapter;
     private ChatsViewModel chatsViewModel;
@@ -47,20 +52,40 @@ public class ChatsFragment extends Fragment {
         FloatingActionButton addButton = view.findViewById(R.id.addButton);
         addButton.setOnClickListener(v -> {
             Intent i = new Intent(getActivity(), AddContactActivity.class);
-            startActivity(i);
+            startActivityForResult(i, 1);
         });
+
+
+        chatAdapter.setOnItemClickListener(new ChatAdapter4.OnItemClickListener() {
+            @Override
+            public void onItemClick(Chat chat) {
+
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra("chatID", chat.getId());
+
+                startActivity(intent);
+
+            }
+        });
+
+
+
         return view;
     }
 //
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 1) {
-//            String displayName = data.getStringExtra("displayName");
-//            Toast.makeText(getContext(), "contact added", Toast.LENGTH_LONG).show();
-//            chatsViewModel.insert(new Chat(displayName));
-//        }
-//    }
+@Override
+public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode == REQUEST_CODE) {
+        if (resultCode == Activity.RESULT_OK) {
+            String lastMessage = data.getStringExtra("lastMessage");
+            String lastMessageTime = data.getStringExtra("lastMessageTime");
+            chats.get(tempPosition).setLastMessage(lastMessage);
+            chats.get(tempPosition).setLastMessageTime(lastMessageTime);
+        }
+    }
+}
 //
 //    private void networkRequest() {
 //        Retrofit retrofit = new Retrofit.Builder()
@@ -91,15 +116,5 @@ public class ChatsFragment extends Fragment {
 //        });
 //    }
 //
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-//            String lastMessage = data.getStringExtra("lastMessage");
-//            String lastMessageTime = data.getStringExtra("lastMessageTime");
-//            chatDao.get(tempPosition).setLastMessage(lastMessage);
-//            chatDao.get(tempPosition).setLastMessageTime(lastMessageTime);
-//        }
-//    }
+/
 }

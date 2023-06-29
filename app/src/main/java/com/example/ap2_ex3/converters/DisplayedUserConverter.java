@@ -12,7 +12,6 @@ import java.util.List;
 public class DisplayedUserConverter {
     @TypeConverter
     public DisplayedUser StringToDisplayedUser(String value) {
-        Log.d("code", value);
         List<String> userList = Arrays.asList(value.split(","));
 
         return new DisplayedUser(userList.get(0), userList.get(1), userList.get(2));

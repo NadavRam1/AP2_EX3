@@ -4,25 +4,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.adapters.MessagesAdapter;
+import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.entities.UserName;
+import com.example.ap2_ex3.repositories.ChatsRepository;
+import com.example.ap2_ex3.viewmodels.ChatsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ChatActivity extends AppCompatActivity {
     private boolean isEmpty = true;
@@ -31,15 +37,28 @@ public class ChatActivity extends AppCompatActivity {
     private List<Message> messageList;
     private RecyclerView msgFeed;
     private MessagesAdapter messagesAdapter;
+    ChatsViewModel chatsViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-//        TextView displayName = findViewById(R.id.displayName);
-//        Intent intent = getIntent();
-//        String name = intent.getExtras().getString("displayName");
-//        displayName.setText(name);
+        chatsViewModel = ViewModelProviders.of(this).get(ChatsViewModel.class);
+
+        TextView displayName = findViewById(R.id.displayName);
+        Intent intent = getIntent();
+        int id = intent.getExtras().getInt("chatID");
+
+        Chat currentChat = null;
+        try {
+            currentChat = chatsViewModel.getChat(id);
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        displayName.setText(currentChat.getUser().getDisplayName());
+
+
+//        displayName.setText(currentChat[0].getUser().getDisplayName());
 
 
         FloatingActionButton btn = findViewById(R.id.recordOrSendBtn);

@@ -32,7 +32,7 @@ public class MessagesConverter {
             String content = components[2];
             String sender = components[3];
 
-            Message message = new Message(id, time, content, new UserName(sender));
+            Message message = new Message(id, content, time, new UserName(sender));
             messages.add(message);
         }
 

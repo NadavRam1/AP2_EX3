@@ -59,8 +59,6 @@ public class MessagesAdapter extends RecyclerView.Adapter {
             otherMessageViewHolder.time.setText(messageList.get(position).getTime());
         }
 
-
-
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.example.ap2_ex3.daos.ChatDao;
 import com.example.ap2_ex3.entities.Chat;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -30,8 +31,9 @@ public class ChatsRepository {
         return allChats;
     }
 
-    public Chat get(int id) {
-        return chatDao.get(id);
+    public Chat get(int id) throws ExecutionException, InterruptedException {
+
+        return new GetChatAsyncTask(chatDao).execute(id).get();
     }
 
     public void insert(Chat chat) {
@@ -61,9 +63,26 @@ public class ChatsRepository {
         }
         @Override
         protected Void doInBackground(Chat... chats) {
-            Log.d("code", chats.toString());
             chatDao.insert(chats[0]);
             return null;
+        }
+    }
+
+    public interface GetChatCallback {
+        void onChatReceived(Chat chat);
+    }
+
+    public static class GetChatAsyncTask extends AsyncTask<Integer, Void, Chat> {
+
+        private ChatDao chatDao;
+        private GetChatAsyncTask(ChatDao chatDao) {
+            this.chatDao = chatDao;
+        }
+
+        @Override
+        protected Chat doInBackground(Integer... integers) {
+            Log.d("get", "background: in");
+            return chatDao.get(integers[0]);
         }
     }
 

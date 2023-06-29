@@ -10,6 +10,7 @@ import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.repositories.ChatsRepository;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ChatsViewModel extends AndroidViewModel {
 
@@ -30,7 +31,9 @@ public class ChatsViewModel extends AndroidViewModel {
         return chats;
     }
 
-
+    public Chat getChat(int id) throws ExecutionException, InterruptedException {
+        return chatsRepository.get(id);
+    }
 
     public void insert(Chat chat) {
         chatsRepository.insert(chat);
