@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.fragments.ChatsFragment;
 import com.example.ap2_ex3.fragments.HomeFragment;
+import com.example.ap2_ex3.fragments.LogoutFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -41,6 +42,8 @@ public class MenuActivity extends AppCompatActivity {
                     replaceFragments(new HomeFragment());
                 } else if (id == R.id.nav_chats) {
                     replaceFragments(new ChatsFragment());
+                } else if (id == R.id.nav_logout) {
+                    replaceFragments(new LogoutFragment());
                 } else {
                     return true;
                 }

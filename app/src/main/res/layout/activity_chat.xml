@@ -1,18 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.ChatActivity">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/barGreen"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/barGreen">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -70,40 +68,28 @@
 
         </RelativeLayout>
 
-
-
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/signing_pages_background"
-
-        app:layout_constraintTop_toBottomOf="@id/action_bar">
-
-<!--        <ListView-->
-<!--            android:id="@+id/msgFeed"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:dividerHeight="5dp" />-->
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/signing_pages_background">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/msgFeed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/feed_my_message_layout"/>
+
     </LinearLayout>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-       android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:background="@color/white">
-
 
         <EditText
             android:id="@+id/messageBar"
@@ -125,17 +111,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/ic_btn_record"
             android:backgroundTint="@color/barGreen"
             android:layout_margin="10dp"
             app:shapeAppearance="@style/Widget.Material3.CircularProgressIndicator"/>
 
+    </LinearLayout>
+
+</LinearLayout>
 
 
-        </LinearLayout>
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
