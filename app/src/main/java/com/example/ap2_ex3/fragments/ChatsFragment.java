@@ -60,7 +60,7 @@ public class ChatsFragment extends Fragment {
         FloatingActionButton addButton = view.findViewById(R.id.addButton);
         addButton.setOnClickListener(v -> {
             Intent i = new Intent(getActivity(), AddContactActivity.class);
-            startActivityForResult(i, 1);
+            startActivity(i);
         });
 
         chatAdapter.setOnItemClickListener(new ChatAdapter4.OnItemClickListener() {
