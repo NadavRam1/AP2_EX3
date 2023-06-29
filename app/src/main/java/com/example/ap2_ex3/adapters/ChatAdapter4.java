@@ -1,5 +1,6 @@
 package com.example.ap2_ex3.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,13 +33,14 @@ public class ChatAdapter4 extends RecyclerView.Adapter<ChatAdapter4.ChatViewHold
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         Chat currentChat = chatList.get(position);
+        Log.d("chat", currentChat.toString());
         Message lastMessage = currentChat.getLastMessage();
         String content, time;
         if (lastMessage == null) {
             time = "";
             content = "";
         } else {
-            time = lastMessage.getTime();
+            time = lastMessage.getCreated();
             content = lastMessage.getContent();
         }
         holder.displayName.setText(currentChat.getUser().getDisplayName());

@@ -1,6 +1,5 @@
 package com.example.ap2_ex3.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -35,8 +34,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 //
 public class ChatsFragment extends Fragment {
-    private static final int REQUEST_CODE = 1;
-    int tempPosition;
     private RecyclerView lstFeed;
     private ChatAdapter4 chatAdapter;
     private ChatsViewModel chatsViewModel;
@@ -56,7 +53,7 @@ public class ChatsFragment extends Fragment {
 
         chatsViewModel = ViewModelProviders.of(this).get(ChatsViewModel.class);
         chatsViewModel.getAllChats().observe(getActivity(), chatList -> {
-            Toast.makeText(getActivity(), "ahhhhhhhhhh", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getActivity(), "ahhhhhhhhhh", Toast.LENGTH_LONG).show();
             chatAdapter.setChatList(chatList);
         });
 
@@ -66,20 +63,16 @@ public class ChatsFragment extends Fragment {
             startActivityForResult(i, 1);
         });
 
-
         chatAdapter.setOnItemClickListener(new ChatAdapter4.OnItemClickListener() {
             @Override
             public void onItemClick(Chat chat) {
-
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra("chatID", chat.getId());
                 startActivity(intent);
 
             }
         });
-
-
-
+        networkRequest();
         return view;
     }
 //
@@ -97,33 +90,38 @@ public class ChatsFragment extends Fragment {
 //    }
 //}
 //
-//    private void networkRequest() {
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(getResources().getString(R.string.BaseUrl))
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        WebServiceAPI api = retrofit.create(WebServiceAPI.class);
-//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
-//        String token = sharedPref.getString("token", "");
-//        Call<List<Chat>> call = api.getAllChats(token);
-//        call.enqueue(new Callback<List<Chat>>() {
-//            @Override
-//            public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
-//                if (response.code() == 200) {
-//
-//                } else {
-//                    Log.i("code", String.valueOf(response.code()));
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Chat>> call, Throwable t) {
-//                Log.i("failure", t.getMessage());
-//                Toast.makeText(getContext(), "something wrong fuck you", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
-//
-//
+    private void networkRequest() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getResources().getString(R.string.BaseUrl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WebServiceAPI api = retrofit.create(WebServiceAPI.class);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+        String token = sharedPref.getString("token", "");
+        Call<List<Chat>> call = api.getAllChats(token);
+        call.enqueue(new Callback<List<Chat>>() {
+            @Override
+            public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
+                if (response.code() == 200) {
+                    chatsViewModel.deleteAll();
+                    chatsViewModel.insertList(response.body());
+                } else {
+                    Log.i("code", String.valueOf(response.code()));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Chat>> call, Throwable t) {
+                Log.i("failure", t.getMessage());
+                Toast.makeText(getContext(), "something wrong fuck you", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        networkRequest();
+    }
 }

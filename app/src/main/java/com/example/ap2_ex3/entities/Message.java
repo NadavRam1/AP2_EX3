@@ -14,14 +14,14 @@ public class Message {
     @PrimaryKey
     private int id;
     private String content;
-    private String time;
+    private String created;
 
     private UserName sender;
 
-    public Message(int id, String content, String time, UserName sender) {
+    public Message(int id, String content, String created, UserName sender) {
         this.id = id;
         this.content = content;
-        this.time = time;
+        this.created = created;
         this.sender = sender;
     }
 
@@ -41,12 +41,12 @@ public class Message {
         this.content = content;
     }
 
-    public String getTime() {
-        return time;
+    public String getCreated() {
+        return created;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setCreated(String time) {
+        this.created = time;
     }
 
     public UserName getSender() {
@@ -60,7 +60,7 @@ public class Message {
     @NonNull
     @Override
     public String toString() {
-        return "{" + id + ", " + time +
-                ", " + content + ", " + sender.getUsername() + "}";
+        return "{" + id + "," + created +
+                "," + content + "," + sender.getUsername() + "}";
     }
 }

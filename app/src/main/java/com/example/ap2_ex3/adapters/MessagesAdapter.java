@@ -52,11 +52,11 @@ public class MessagesAdapter extends RecyclerView.Adapter {
         if (messageList.get(position).getSender().getUsername().equals(myUsername)) {
             MyMessageViewHolder myMessageViewHolder = (MyMessageViewHolder) holder;
             myMessageViewHolder.content.setText(messageList.get(position).getContent());
-            myMessageViewHolder.time.setText(messageList.get(position).getTime());
+            myMessageViewHolder.time.setText(messageList.get(position).getCreated());
         } else {
             OtherMessageViewHolder otherMessageViewHolder = (OtherMessageViewHolder) holder;
             otherMessageViewHolder.content.setText(messageList.get(position).getContent());
-            otherMessageViewHolder.time.setText(messageList.get(position).getTime());
+            otherMessageViewHolder.time.setText(messageList.get(position).getCreated());
         }
 
     }

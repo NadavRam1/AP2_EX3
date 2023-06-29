@@ -23,13 +23,11 @@ public class ChatsRepository {
         allChats = chatDao.getAllChats();
     }
 
-
     public LiveData<List<Chat>> getAllChats() {
         return allChats;
     }
 
     public Chat get(int id) throws ExecutionException, InterruptedException {
-
         return new GetChatAsyncTask(chatDao).execute(id).get();
     }
 
@@ -37,27 +35,25 @@ public class ChatsRepository {
         new InsertChatAsyncTask(chatDao).execute(chat);
     }
 
-//    public void insertList(final Chat... chats) {
-//        executor.execute(() -> chatDao.insert(chats));
-//    }
-
-
-//    public void delete(final Chat chat) {
-//        //  api.delete(chat);
-//        executor.execute(() -> chatDao.delete(chat));
-//    }
+    public void insertList(List<Chat> chats) {
+        new InsertChatsAsyncTask(chatDao).execute(chats);
+    }
 
     public void update(final Chat... chat) {
         new UpdateChatAsyncTask(chatDao).execute(chat);
     }
 
+    public void deleteAll() {
+        new DeleteAllChatsAsyncTask(chatDao).execute();
+    }
 
     private static class InsertChatAsyncTask extends AsyncTask<Chat, Void, Void> {
+        private final ChatDao chatDao;
 
-        private ChatDao chatDao;
         private InsertChatAsyncTask(ChatDao chatDao) {
             this.chatDao = chatDao;
         }
+
         @Override
         protected Void doInBackground(Chat... chats) {
             chatDao.insert(chats[0]);
@@ -65,9 +61,23 @@ public class ChatsRepository {
         }
     }
 
-    public static class GetChatAsyncTask extends AsyncTask<Integer, Void, Chat> {
+    private static class InsertChatsAsyncTask extends AsyncTask<List<Chat>, Void, Void> {
+        private final ChatDao chatDao;
 
+        private InsertChatsAsyncTask(ChatDao chatDao) {
+            this.chatDao = chatDao;
+        }
+
+        @Override
+        protected Void doInBackground(List<Chat>... chats) {
+            chatDao.insertList(chats[0]);
+            return null;
+        }
+    }
+
+    public static class GetChatAsyncTask extends AsyncTask<Integer, Void, Chat> {
         private ChatDao chatDao;
+
         private GetChatAsyncTask(ChatDao chatDao) {
             this.chatDao = chatDao;
         }
@@ -80,11 +90,12 @@ public class ChatsRepository {
     }
 
     private static class GetAllChatsAsyncTask extends AsyncTask<Void, Void, LiveData<List<Chat>>> {
-
         private ChatDao chatDao;
+
         private GetAllChatsAsyncTask(ChatDao chatDao) {
             this.chatDao = chatDao;
         }
+
         @Override
         protected LiveData<List<Chat>> doInBackground(Void... voids) {
             return chatDao.getAllChats();
@@ -92,14 +103,29 @@ public class ChatsRepository {
     }
 
     private static class UpdateChatAsyncTask extends AsyncTask<Chat, Void, Void> {
-
         private ChatDao chatDao;
+
         private UpdateChatAsyncTask(ChatDao chatDao) {
             this.chatDao = chatDao;
         }
+
         @Override
         protected Void doInBackground(Chat... chats) {
             chatDao.update(chats);
+            return null;
+        }
+    }
+
+    private static class DeleteAllChatsAsyncTask extends AsyncTask<Void, Void, Void> {
+        private ChatDao chatDao;
+
+        private DeleteAllChatsAsyncTask(ChatDao chatDao) {
+            this.chatDao = chatDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            chatDao.deleteTable();
             return null;
         }
     }
