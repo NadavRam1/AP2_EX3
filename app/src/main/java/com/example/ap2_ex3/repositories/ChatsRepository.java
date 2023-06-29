@@ -1,29 +1,25 @@
 package com.example.ap2_ex3.repositories;
 
 import android.app.Application;
-import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.room.Insert;
 
 import com.example.ap2_ex3.AppDB;
 //import com.example.ap2_ex3.ChatAPI;
 import com.example.ap2_ex3.daos.ChatDao;
-import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.entities.Chat;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class ChatsRepository {
-    private AppDB appDB;
 
-    private LiveData<List<Chat>> getAllChats;
+    private LiveData<List<Chat>> allChats;
     private ChatDao chatDao;
 //    private ChatListData chatListData;
 //    private ChatAPI api;
@@ -31,12 +27,83 @@ public class ChatsRepository {
     private Executor executor = Executors.newSingleThreadExecutor();
 
     public ChatsRepository(Application application) { // maybe Context context instead?
-        appDB = AppDB.getInstance(application);
+        AppDB appDB = AppDB.getInstance(application);
         chatDao = appDB.chatDao();
-        getAllChats = chatDao.getAllChats();
+        allChats = chatDao.getAllChats();
+
 //        chatListData = new ChatListData();
 //        api = new ChatAPI(chatListData, chatDao);
 
+    }
+
+
+    public LiveData<List<Chat>> getAllChats() {
+//        new GetAllChatsAsyncTask(chatDao).execute();
+        return allChats;
+    }
+
+    public Chat get(int id) {
+        return chatDao.get(id);
+    }
+
+    public void insert(Chat chat) {
+        new InsertChatAsyncTask(chatDao).execute(chat);
+    }
+
+//    public void insertList(final Chat... chats) {
+//        executor.execute(() -> chatDao.insert(chats));
+//    }
+
+
+//    public void delete(final Chat chat) {
+//        //  api.delete(chat);
+//        executor.execute(() -> chatDao.delete(chat));
+//    }
+
+    public void update(final Chat... chat) {
+        //  api.delete(chat);
+        new UpdateChatAsyncTask(chatDao).execute(chat);
+    }
+
+
+    private static class InsertChatAsyncTask extends AsyncTask<Chat, Void, Void> {
+
+        private ChatDao chatDao;
+        private InsertChatAsyncTask(ChatDao chatDao) {
+            this.chatDao = chatDao;
+        }
+        @Override
+        protected Void doInBackground(Chat... chats) {
+            Log.d("code", chats.toString());
+            chatDao.insert(chats[0]);
+            return null;
+        }
+    }
+
+//    private static class GetAllChatsAsyncTask extends AsyncTask<Void, Void, Void> {
+//
+//        private ChatDao chatDao;
+//        private GetAllChatsAsyncTask(ChatDao chatDao) {
+//            this.chatDao = chatDao;
+//        }
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            chatDao.getAllChats();
+//            return null;
+//        }
+//    }
+
+    private static class UpdateChatAsyncTask extends AsyncTask<Chat, Void, Void> {
+
+        private ChatDao chatDao;
+        private UpdateChatAsyncTask(ChatDao chatDao) {
+            this.chatDao = chatDao;
+        }
+        @Override
+        protected Void doInBackground(Chat... chats) {
+            chatDao.update(chats);
+            return null;
+        }
     }
 
 //    public void insert(List<Chat> chatList) {
@@ -100,40 +167,7 @@ public class ChatsRepository {
 //        return chatDao.getAllChats();
 //    }
 
-    public LiveData<List<Chat>> getAllChats() {
-        return getAllChats;
-    }
 
-    public Chat get(int id) {
-        return chatDao.get(id);
-    }
-
-    public void insert(final Chat chat) {
-        //api.add(chat);
-//        new InsertTask(chatDao).execute(chat);
-        executor.execute(() -> chatDao.insert(chat));
-    }
-
-    public void insertList(final List<Chat> chatList) {
-        executor.execute(() -> chatDao.insertList(chatList));
-    }
-
-
-    public void delete(final Chat chat) {
-      //  api.delete(chat);
-        executor.execute(() -> chatDao.delete(chat));
-    }
-
-    public void update(final Chat chat) {
-        //  api.delete(chat);
-        executor.execute(() -> chatDao.update(chat));
-    }
-
-
-    public void reload() {
-        //api.get(this);
-
-    }
 
 //    private static class InsertTask extends AsyncTask<Chat, Void, Void> {
 //

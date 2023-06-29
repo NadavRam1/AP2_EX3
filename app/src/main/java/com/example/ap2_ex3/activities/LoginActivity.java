@@ -107,10 +107,11 @@ public class LoginActivity extends AppCompatActivity {
                     editor.apply();
                     Intent tempIntent = new Intent(LoginActivity.this, MenuActivity.class);
                     startActivity(tempIntent);
+                } else {
+                    Log.i("code", String.valueOf(response.code()));
+                    // Handle the case when the response is not successful or the body is null
+                    username.setError(response.body());
                 }
-                Log.i("code", String.valueOf(response.code()));
-                // Handle the case when the response is not successful or the body is null
-                username.setError(response.body());
             }
 
             @Override

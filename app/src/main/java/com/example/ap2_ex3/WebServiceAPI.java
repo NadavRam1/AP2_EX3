@@ -43,7 +43,7 @@ public interface WebServiceAPI {
     Call<Void> getUser(@Header("Authorization") String token, @Path("username") String username);
 
     @POST("/api/Users")
-    Call<User> createUser(@Body User user); //need user object?
+    Call<Void> createUser(@Body User user); //need user object?
 
 
 

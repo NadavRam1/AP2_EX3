@@ -1,5 +1,7 @@
 package com.example.ap2_ex3.converters;
 
+import android.util.Log;
+
 import androidx.room.TypeConverter;
 
 import com.example.ap2_ex3.entities.Message;
@@ -18,11 +20,13 @@ public class MessagesConverter {
         List<Message> messages = new ArrayList<>();
 
         // Define the pattern to match each message inside curly braces
-        Pattern pattern = Pattern.compile("\\{([^}]+)}");
+        Pattern pattern = Pattern.compile("\\{[^}]*\\}");
         Matcher matcher = pattern.matcher(value);
 
         while (matcher.find()) {
-            String messageString = matcher.group(1);
+            String messageString = matcher.group();
+            messageString = messageString.substring(1, messageString.length() - 2);
+            Log.d("code", messageString);
             String[] components = messageString.split(",");
 
             int id = Integer.parseInt(components[0]);

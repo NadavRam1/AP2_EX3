@@ -54,11 +54,6 @@ public class AddContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
 
-        appDB = AppDB.getInstance(this);
-
-        chatDao = appDB.chatDao();
-
-        chatsRepository = new ChatsRepository(getApplication());
         chatsViewModel = new ViewModelProvider(this).get(ChatsViewModel.class);
 
         Button btnAdd = findViewById(R.id.btnAdd);
@@ -83,7 +78,7 @@ public class AddContactActivity extends AppCompatActivity {
             public void onResponse(Call<Chat> call, Response<Chat> response) {
                 if (response.code() == 200) {
                     Log.d("chat", response.body().toString());
-                    chatsRepository.insert(response.body());
+                    chatsViewModel.insert(response.body());
                     finish();
                 } else {
                     Log.i("code", String.valueOf(response.code()));

@@ -105,24 +105,25 @@ public class MainActivity extends AppCompatActivity {
                 password.getText().toString(),
                 displayName.getText().toString(),
                 profilePic.toString());
-        Call<User> call = api.createUser(user);
+        Call<Void> call = api.createUser(user);
         usersRepository = new UsersRepository(getApplication());
-        call.enqueue(new Callback<User>() {
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
-                    usersRepository.insert(response.body());
+                    usersRepository.insert(user);
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
-                } else {
-                    // Handle the case when the response is not successful or the body is null
-                    username.setError(String.valueOf(response));
                 }
+//                else {
+//                    // Handle the case when the response is not successful or the body is null
+////                    username.setError(response.body());
+//                }
             }
 
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 requestValid = false;
                 Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
