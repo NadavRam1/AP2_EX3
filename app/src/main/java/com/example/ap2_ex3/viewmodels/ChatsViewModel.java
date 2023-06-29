@@ -1,21 +1,15 @@
 package com.example.ap2_ex3.viewmodels;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 
 import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.repositories.ChatsRepository;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class ChatsViewModel extends AndroidViewModel {
 

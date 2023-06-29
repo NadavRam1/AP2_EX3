@@ -1,7 +1,5 @@
 package com.example.ap2_ex3.adapters;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.entities.Message;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
-import java.util.prefs.Preferences;
 
 public class MessagesAdapter extends RecyclerView.Adapter {
 //

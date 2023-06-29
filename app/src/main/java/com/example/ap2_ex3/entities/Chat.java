@@ -6,21 +6,21 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.example.ap2_ex3.converters.DisplayedUserConverter;
 import com.example.ap2_ex3.converters.MessagesConverter;
-import com.example.ap2_ex3.converters.UserConverter;
 
 import java.util.List;
 
 @Entity(tableName = "ChatsDB", indices = @Index(value = {"id"},unique = true))
-@TypeConverters({UserConverter.class, MessagesConverter.class})
+@TypeConverters({DisplayedUserConverter.class, MessagesConverter.class})
 public class Chat {
 
     @PrimaryKey
     private int id;
-    private User user;
+    private DisplayedUser user;
     private List<Message> messages;
 
-    public Chat(int id, User user, List<Message> messages) {
+    public Chat(int id, DisplayedUser user, List<Message> messages) {
         this.id = id;
         this.user = user;
         this.messages = messages;
@@ -32,11 +32,11 @@ public class Chat {
         return id;
     }
 
-    public User getUser() {
+    public DisplayedUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(DisplayedUser user) {
         this.user = user;
     }
 
@@ -49,6 +49,9 @@ public class Chat {
     }
 
     public Message getLastMessage() {
+        if (messages.isEmpty()) {
+            return null;
+        }
         return messages.get(messages.size() - 1);
     }
 

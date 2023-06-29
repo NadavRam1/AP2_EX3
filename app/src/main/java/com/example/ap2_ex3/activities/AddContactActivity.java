@@ -1,33 +1,25 @@
 package com.example.ap2_ex3.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Room;
-
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.ap2_ex3.AppDB;
+import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.WebServiceAPI;
 import com.example.ap2_ex3.daos.ChatDao;
-import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.entities.UserName;
 import com.example.ap2_ex3.repositories.ChatsRepository;
 import com.example.ap2_ex3.viewmodels.ChatsViewModel;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -39,15 +31,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class AddContactActivity extends AppCompatActivity {
-
-    private AppDB appDB;
-    private ChatDao chatDao;
-    private ChatsRepository chatsRepository;
-
     private ChatsViewModel chatsViewModel;
     private Executor executor = Executors.newSingleThreadExecutor();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText username, password;
     private static final String URL_DATA = "http://10.0.2.2:5000/";
-    boolean isAllFieldsChecked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
 
         loginButton.setOnClickListener(view -> {
-            isAllFieldsChecked = CheckAllFields();
-            if(isAllFieldsChecked) {
+            if(checkAllFields()) {
                 networkRequest();
             }
         });
@@ -121,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private boolean CheckAllFields() {
+    private boolean checkAllFields() {
         if(username.length() == 0) {
             username.setError("This field is required");
             return false;

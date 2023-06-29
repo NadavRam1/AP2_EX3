@@ -5,11 +5,9 @@ import android.util.Log;
 import androidx.room.TypeConverter;
 
 import com.example.ap2_ex3.entities.Message;
-import com.example.ap2_ex3.entities.Messages;
 import com.example.ap2_ex3.entities.UserName;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -14,7 +14,6 @@ import java.util.List;
 
 @Dao
 public interface ChatDao {
-
     @Query("SELECT * FROM ChatsDB")
     LiveData<List<Chat>> getAllChats();
 
@@ -32,6 +31,4 @@ public interface ChatDao {
 
     @Delete
     void delete(Chat... chats);
-
-
 }

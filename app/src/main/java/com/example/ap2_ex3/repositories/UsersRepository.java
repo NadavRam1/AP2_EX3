@@ -2,13 +2,8 @@ package com.example.ap2_ex3.repositories;
 
 import android.app.Application;
 
-import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-
 import com.example.ap2_ex3.AppDB;
-import com.example.ap2_ex3.daos.ChatDao;
 import com.example.ap2_ex3.daos.UserDao;
-import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.entities.User;
 
 import java.util.List;
@@ -52,7 +47,6 @@ public class UsersRepository {
     }
 
     public void update(final User user) {
-        //  api.delete(chat);
         executor.execute(() -> userDao.update(user));
     }
 

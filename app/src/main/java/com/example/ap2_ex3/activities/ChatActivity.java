@@ -1,9 +1,5 @@
 package com.example.ap2_ex3.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,9 +9,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.adapters.MessagesAdapter;
-import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.entities.UserName;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

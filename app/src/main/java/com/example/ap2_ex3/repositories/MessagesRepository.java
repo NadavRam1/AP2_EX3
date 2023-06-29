@@ -6,9 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.ap2_ex3.AppDB;
 import com.example.ap2_ex3.daos.MessageDao;
-import com.example.ap2_ex3.daos.UserDao;
 import com.example.ap2_ex3.entities.Message;
-import com.example.ap2_ex3.entities.User;
 
 import java.util.List;
 import java.util.concurrent.Executor;

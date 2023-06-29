@@ -39,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView profilePic;
     CheckBox robotCheck;
     UsersRepository usersRepository;
-    private boolean requestValid = true;
-//    AppDB appDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         robotCheck = findViewById(R.id.robotCheck);
 
         signUpButton.setOnClickListener(view -> {
-            if(CheckAllFields()) {
+            if(checkAllFields()) {
                 networkRequest();
             }
         });
@@ -124,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                requestValid = false;
                 Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
 
@@ -134,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private boolean CheckAllFields() {
+    private boolean checkAllFields() {
         if (username.length() == 0) {
             username.setError("This field is required");
             return false;

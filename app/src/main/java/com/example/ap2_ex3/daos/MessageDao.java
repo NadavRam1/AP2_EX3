@@ -11,7 +11,6 @@ import java.util.List;
 
 @Dao
 public interface MessageDao {
-
     @Query("SELECT * FROM MessagesDB")
     LiveData<List<Message>> getAllMessages();
 
@@ -23,5 +22,4 @@ public interface MessageDao {
 
     @Query("SELECT * FROM MessagesDB WHERE id = :id")
     Message get(int id);
-
 }
