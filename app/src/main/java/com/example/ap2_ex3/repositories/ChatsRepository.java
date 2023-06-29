@@ -12,13 +12,10 @@ import com.example.ap2_ex3.entities.Chat;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class ChatsRepository {
-    private LiveData<List<Chat>> allChats;
-    private ChatDao chatDao;
-    private Executor executor = Executors.newSingleThreadExecutor();
+    private final LiveData<List<Chat>> allChats;
+    private final ChatDao chatDao;
 
     public ChatsRepository(Application application) {
         AppDB appDB = AppDB.getInstance(application);
@@ -68,10 +65,6 @@ public class ChatsRepository {
         }
     }
 
-    public interface GetChatCallback {
-        void onChatReceived(Chat chat);
-    }
-
     public static class GetChatAsyncTask extends AsyncTask<Integer, Void, Chat> {
 
         private ChatDao chatDao;
@@ -86,18 +79,17 @@ public class ChatsRepository {
         }
     }
 
-//    private static class GetAllChatsAsyncTask extends AsyncTask<Void, Void, Void> {
-//
-//        private ChatDao chatDao;
-//        private GetAllChatsAsyncTask(ChatDao chatDao) {
-//            this.chatDao = chatDao;
-//        }
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-//            chatDao.getAllChats();
-//            return null;
-//        }
-//    }
+    private static class GetAllChatsAsyncTask extends AsyncTask<Void, Void, LiveData<List<Chat>>> {
+
+        private ChatDao chatDao;
+        private GetAllChatsAsyncTask(ChatDao chatDao) {
+            this.chatDao = chatDao;
+        }
+        @Override
+        protected LiveData<List<Chat>> doInBackground(Void... voids) {
+            return chatDao.getAllChats();
+        }
+    }
 
     private static class UpdateChatAsyncTask extends AsyncTask<Chat, Void, Void> {
 

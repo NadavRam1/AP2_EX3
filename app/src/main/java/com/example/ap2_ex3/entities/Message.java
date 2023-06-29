@@ -11,7 +11,7 @@ import com.example.ap2_ex3.converters.UserNameConverter;
 @Entity(tableName = "MessagesDB", indices = @Index(value = {"id"},unique = true))
 @TypeConverters({UserNameConverter.class})
 public class Message {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private int id;
     private String content;
     private String time;

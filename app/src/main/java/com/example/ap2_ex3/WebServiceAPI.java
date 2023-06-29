@@ -2,6 +2,8 @@ package com.example.ap2_ex3;
 
 
 import com.example.ap2_ex3.entities.Chat;
+import com.example.ap2_ex3.entities.Message;
+import com.example.ap2_ex3.entities.MessageContent;
 import com.example.ap2_ex3.entities.User;
 import com.example.ap2_ex3.entities.UserCredentials;
 import com.example.ap2_ex3.entities.UserName;
@@ -31,10 +33,10 @@ public interface WebServiceAPI {
     Call<Void> deleteChat(@Header("Authorization") String token, @Path("id") int id);
 
     @POST("api/Chats/{id}/Messages")
-    Call<Void> createMessage(@Header("Authorization") String token, @Path("id") int id);
+    Call<Void> createMessage(@Header("Authorization") String token, @Path("id") int id, @Body MessageContent msg);
 
     @GET("api/Chats/{id}/Messages")
-    Call<Void> getMessage(@Header("Authorization") String token, @Path("id") int id);
+    Call<List<Message>> getMessages(@Header("Authorization") String token, @Path("id") int id);
 
     @POST("api/Tokens")
     Call<String> createToken(@Body UserCredentials user);

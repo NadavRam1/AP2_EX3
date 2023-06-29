@@ -90,7 +90,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/msgFeed"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/feed_my_message_layout"/>
     </LinearLayout>

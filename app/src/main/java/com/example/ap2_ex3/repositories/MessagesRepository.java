@@ -1,6 +1,7 @@
 package com.example.ap2_ex3.repositories;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -9,39 +10,34 @@ import com.example.ap2_ex3.daos.MessageDao;
 import com.example.ap2_ex3.entities.Message;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class MessagesRepository {
+    private final LiveData<List<Message>> allMessages;
+    private final MessageDao messageDao;
 
-    private AppDB appDB;
 
-    private LiveData<List<Message>> getAllMessages;
-    private MessageDao messageDao;
-
-    private Executor executor = Executors.newSingleThreadExecutor();
 
     public MessagesRepository(Application application) {
-        appDB = AppDB.getInstance(application);
+        AppDB appDB = AppDB.getInstance(application);
         messageDao = appDB.messageDao();
-        executor.execute(() -> getAllMessages = messageDao.getAllMessages());
+        allMessages = messageDao.getAllMessages();
     }
 
     public LiveData<List<Message>> getAllMessages() {
-        return getAllMessages;
+        return allMessages;
     }
 
-    public Message get(int id) {
-        return messageDao.get(id);
-    }
+//    public Message get(int id) {
+//        return messageDao.get(id);
+//    }
 
     public void insert(final Message message) {
-        executor.execute(() -> messageDao.insert(message));
+        new AddMessageAsyncTask(messageDao).execute(message);
     }
 
-    public void insertList(final List<Message> messageList) {
-        executor.execute(() -> messageDao.insertList(messageList));
-    }
+//    public void insertList(final List<Message> messageList) {
+//        executor.execute(() -> messageDao.insertList(messageList));
+//    }
 
 
 
@@ -49,4 +45,17 @@ public class MessagesRepository {
 //        //  api.delete(chat);
 //        executor.execute(() -> userDao.update(user));
 //    }
+
+    private static class AddMessageAsyncTask extends AsyncTask<Message, Void, Void> {
+
+        private MessageDao messageDao;
+        private AddMessageAsyncTask(MessageDao messageDao) {
+            this.messageDao = messageDao;
+        }
+        @Override
+        protected Void doInBackground(Message... messages) {
+            messageDao.insert(messages[0]);
+            return null;
+        }
+    }
 }

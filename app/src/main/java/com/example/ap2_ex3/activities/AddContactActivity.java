@@ -50,7 +50,7 @@ public class AddContactActivity extends AppCompatActivity {
 
     private void networkRequest() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(this.getResources().getString(R.string.BaseUrl))
+                .baseUrl(getResources().getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);

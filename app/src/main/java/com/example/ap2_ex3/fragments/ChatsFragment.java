@@ -2,7 +2,9 @@ package com.example.ap2_ex3.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +17,22 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.WebServiceAPI;
 import com.example.ap2_ex3.activities.AddContactActivity;
 import com.example.ap2_ex3.activities.ChatActivity;
 import com.example.ap2_ex3.adapters.ChatAdapter4;
 import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.viewmodels.ChatsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 //
 public class ChatsFragment extends Fragment {
     private static final int REQUEST_CODE = 1;
@@ -46,7 +58,6 @@ public class ChatsFragment extends Fragment {
         chatsViewModel.getAllChats().observe(getActivity(), chatList -> {
             Toast.makeText(getActivity(), "ahhhhhhhhhh", Toast.LENGTH_LONG).show();
             chatAdapter.setChatList(chatList);
-            Log.d("code", chatList.toString());
         });
 
         FloatingActionButton addButton = view.findViewById(R.id.addButton);
@@ -62,7 +73,6 @@ public class ChatsFragment extends Fragment {
 
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra("chatID", chat.getId());
-
                 startActivity(intent);
 
             }
@@ -89,7 +99,7 @@ public class ChatsFragment extends Fragment {
 //
 //    private void networkRequest() {
 //        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(URL_DATA)
+//                .baseUrl(getResources().getString(R.string.BaseUrl))
 //                .addConverterFactory(GsonConverterFactory.create())
 //                .build();
 //        WebServiceAPI api = retrofit.create(WebServiceAPI.class);
@@ -100,8 +110,7 @@ public class ChatsFragment extends Fragment {
 //            @Override
 //            public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
 //                if (response.code() == 200) {
-//                    // update chats repository
-//                    Log.d("chats", response.body().toString());
+//
 //                } else {
 //                    Log.i("code", String.valueOf(response.code()));
 //                }

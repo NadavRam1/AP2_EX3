@@ -9,19 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.entities.Message;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessagesAdapter extends RecyclerView.Adapter {
 //
-    private List<Message> messageList;
-    private String myUsername;
+    private List<Message> messageList = new ArrayList<>();
+    private final String myUsername;
 
-    public MessagesAdapter(List<Message> messageList, String myUsername) {
-        this.messageList = messageList;
+    public MessagesAdapter(String myUsername) {
         this.myUsername = myUsername;
-
     }
 
     @Override
@@ -64,6 +64,11 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return messageList.size();
+    }
+
+    public void setMessageList(List<Message> messageList) {
+        this.messageList = messageList;
+        notifyDataSetChanged();
     }
 
     class MyMessageViewHolder extends RecyclerView.ViewHolder {

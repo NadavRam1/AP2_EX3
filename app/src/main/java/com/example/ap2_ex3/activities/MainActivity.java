@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
    private void networkRequest() {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(URL_DATA)
+                    .baseUrl(getResources().getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);

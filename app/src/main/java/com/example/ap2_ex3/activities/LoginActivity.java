@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                 .setLenient()
                 .create();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL_DATA)
+                .baseUrl(getResources().getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);

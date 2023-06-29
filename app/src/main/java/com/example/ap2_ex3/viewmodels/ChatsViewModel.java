@@ -13,11 +13,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class ChatsViewModel extends AndroidViewModel {
-
     private ChatsRepository chatsRepository;
-
     private final LiveData<List<Chat>> chats;
-
 
     public ChatsViewModel(@NonNull Application application) {
         super(application);
@@ -54,6 +51,4 @@ public class ChatsViewModel extends AndroidViewModel {
     public void update(Chat... chat) {
         chatsRepository.update(chat);
     }
-
-
 }
