@@ -73,19 +73,19 @@ public class ChatsFragment extends Fragment {
         return view;
     }
 //
-@Override
-public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-
-    if (requestCode == REQUEST_CODE) {
-        if (resultCode == Activity.RESULT_OK) {
-            String lastMessage = data.getStringExtra("lastMessage");
-            String lastMessageTime = data.getStringExtra("lastMessageTime");
-            chats.get(tempPosition).setLastMessage(lastMessage);
-            chats.get(tempPosition).setLastMessageTime(lastMessageTime);
-        }
-    }
-}
+//@Override
+//public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//    super.onActivityResult(requestCode, resultCode, data);
+//
+//    if (requestCode == REQUEST_CODE) {
+//        if (resultCode == Activity.RESULT_OK) {
+//            String lastMessage = data.getStringExtra("lastMessage");
+//            String lastMessageTime = data.getStringExtra("lastMessageTime");
+//            chats.get(tempPosition).setLastMessage(lastMessage);
+//            chats.get(tempPosition).setLastMessageTime(lastMessageTime);
+//        }
+//    }
+//}
 //
 //    private void networkRequest() {
 //        Retrofit retrofit = new Retrofit.Builder()
@@ -116,5 +116,5 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        });
 //    }
 //
-/
+//
 }
