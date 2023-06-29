@@ -9,6 +9,8 @@ import androidx.room.TypeConverters;
 import com.example.ap2_ex3.converters.DisplayedUserConverter;
 import com.example.ap2_ex3.converters.MessagesConverter;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity(tableName = "ChatsDB", indices = @Index(value = {"id"},unique = true))
@@ -23,6 +25,7 @@ public class Chat {
     public Chat(int id, DisplayedUser user, List<Message> messages) {
         this.id = id;
         this.user = user;
+        Collections.reverse(messages);
         this.messages = messages;
     }
     public void setId(int id) {

@@ -37,7 +37,7 @@ public class ChatAdapter2 extends RecyclerView.Adapter<ChatAdapter2.ChatViewHold
         Chat chat = chatList.get(position);
         holder.displayName.setText(chat.getUser().getDisplayName());
         holder.lastMessage.setText(chat.getLastMessage().getContent());
-        holder.lastMessageTime.setText(chat.getLastMessage().getTime());
+        holder.lastMessageTime.setText(chat.getLastMessage().getCreated());
 //        holder.profilePic.setImageResource(chat.getUser().getProfilePic());
     }
 

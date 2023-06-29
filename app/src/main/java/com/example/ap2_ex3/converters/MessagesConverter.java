@@ -24,18 +24,16 @@ public class MessagesConverter {
         while (matcher.find()) {
             String messageString = matcher.group();
             messageString = messageString.substring(1, messageString.length() - 2);
-            Log.d("code", messageString);
             String[] components = messageString.split(",");
 
             int id = Integer.parseInt(components[0]);
-            String time = components[1];
+            String created = components[1];
             String content = components[2];
             String sender = components[3];
 
-            Message message = new Message(id, content, time, new UserName(sender));
+            Message message = new Message(id, content, created, new UserName(sender));
             messages.add(message);
         }
-
         return messages;
     }
 

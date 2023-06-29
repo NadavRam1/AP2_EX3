@@ -3,6 +3,7 @@ package com.example.ap2_ex3.daos;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.ap2_ex3.entities.Message;
@@ -22,4 +23,7 @@ public interface MessageDao {
 
     @Query("SELECT * FROM MessagesDB WHERE id = :id")
     Message get(int id);
+
+    @Query("DELETE FROM MessagesDB")
+    void deleteTable();
 }

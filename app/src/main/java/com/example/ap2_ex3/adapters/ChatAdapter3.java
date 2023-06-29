@@ -47,7 +47,7 @@ public class ChatAdapter3 extends RecyclerView.Adapter {
         ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
         chatViewHolder.displayName.setText(chatsList.get(position).getUser().getDisplayName());
         chatViewHolder.lastMessage.setText(chatsList.get(position).getLastMessage().getContent());
-        chatViewHolder.lastMessageTime.setText(chatsList.get(position).getLastMessage().getTime());
+        chatViewHolder.lastMessageTime.setText(chatsList.get(position).getLastMessage().getCreated());
         chatViewHolder.profilePic.setImageResource(R.drawable.ic_launcher_foreground);
 
     }

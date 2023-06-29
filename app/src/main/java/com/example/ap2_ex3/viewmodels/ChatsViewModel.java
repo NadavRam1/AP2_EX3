@@ -36,19 +36,15 @@ public class ChatsViewModel extends AndroidViewModel {
         chatsRepository.insert(chat);
     }
 
-//    public void insertList(List<Chat> chatList) {
-//        chatsRepository.insertList(chatList);
-//    }
-
-//    public void insertList(Chat... chats) {
-//        chatsRepository.insertList(chats);
-//    }
-
-//    public void delete(Chat chat) {
-//        chatsRepository.delete(chat);
-//    }
+    public void insertList(List<Chat> chats) {
+        chatsRepository.insertList(chats);
+    }
 
     public void update(Chat... chat) {
         chatsRepository.update(chat);
+    }
+
+    public void deleteAll() {
+        chatsRepository.deleteAll();
     }
 }

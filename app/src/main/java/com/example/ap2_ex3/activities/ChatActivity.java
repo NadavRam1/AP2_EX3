@@ -45,7 +45,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ChatActivity extends AppCompatActivity {
     private boolean isEmpty = true;
     Chat currentChat;
-    private List<Message> messageList;
     private RecyclerView msgFeed;
     private MessagesAdapter messagesAdapter;
     ChatsViewModel chatsViewModel;
@@ -73,23 +72,7 @@ public class ChatActivity extends AppCompatActivity {
         }
         displayName.setText(currentChat.getUser().getDisplayName());
 
-
-//        displayName.setText(currentChat[0].getUser().getDisplayName());
-
-
         FloatingActionButton btn = findViewById(R.id.recordOrSendBtn);
-
-//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        String username = sharedPreferences.getString("me", "");
-//        String content, String time, User sender
-//        String username, String password, String displayName, String profilePic
-        messageList = new ArrayList<>();
-        messageList.add(new Message(1, "hello my friend", "16:33", new UserName("nadav")));
-        messageList.add(new Message(2, "hello to you too", "16:34", new UserName("ori")));
-        messageList.add(new Message(3, "fuck Hemi", "16:33", new UserName("nadav")));
-        messageList.add(new Message(4, "I agree", "16:33", new UserName("ori")));
-        messageList.add(new Message(5, "Mother RUSSIA", "16:33", new UserName("nadav")));
-        messageList.add(new Message(6, "YEET!", "16:33", new UserName("ori")));
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String me = sharedPref.getString("me", "");
@@ -130,7 +113,7 @@ public class ChatActivity extends AppCompatActivity {
 
         btn.setOnClickListener(view -> {
             if (!isEmpty) {
-                networkRequest();
+                addMessageToDB();
                 messageBar.setText("");
             } else {
                 View toastView = getLayoutInflater().inflate(R.layout.custom_toast, null);
@@ -144,9 +127,10 @@ public class ChatActivity extends AppCompatActivity {
                 toast.show();
             }
         });
+        updateMessagesFromDB();
     }
 
-    private void networkRequest() {
+    private void addMessageToDB() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getResources().getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -160,24 +144,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
-                    Call<List<Message>> messagesCall = api.getMessages(token, currentChat.getId());
-                    messagesCall.enqueue(new Callback<List<Message>>() {
-                        @Override
-                        public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
-                            if (response.code() == 200) {
-                                Collections.reverse(response.body());
-                                messagesAdapter.setMessageList(response.body());
-                            } else {
-                                Log.i("code", String.valueOf(response.code()));
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<Message>> call, Throwable t) {
-                            Log.i("failure", t.getMessage());
-                            Toast.makeText(getBaseContext(), "something wrong fuck you", Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    updateMessagesFromDB();
                 } else {
                     Log.i("code", String.valueOf(response.code()));
                 }
@@ -185,6 +152,35 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                Log.i("failure", t.getMessage());
+                Toast.makeText(getBaseContext(), "something wrong fuck you", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void updateMessagesFromDB() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getResources().getString(R.string.BaseUrl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WebServiceAPI api = retrofit.create(WebServiceAPI.class);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String token = sharedPref.getString("token", "");
+        Call<List<Message>> messagesCall = api.getMessages(token, currentChat.getId());
+        messagesCall.enqueue(new Callback<List<Message>>() {
+            @Override
+            public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
+                if (response.code() == 200) {
+                    messagesViewModel.deleteAll();
+                    Collections.reverse(response.body());
+                    messagesViewModel.insertList(response.body());
+                } else {
+                    Log.i("code", String.valueOf(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Message>> call, Throwable t) {
                 Log.i("failure", t.getMessage());
                 Toast.makeText(getBaseContext(), "something wrong fuck you", Toast.LENGTH_LONG).show();
             }

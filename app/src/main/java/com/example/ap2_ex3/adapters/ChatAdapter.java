@@ -64,7 +64,7 @@ public class ChatAdapter extends BaseAdapter {
         viewHolder.displayName.setText(c.getUser().getDisplayName());
 //        viewHolder.profilePic.setImageResource(c.getUser().getProfilePic());
         viewHolder.lastMessage.setText(c.getLastMessage().getContent());
-        viewHolder.lastMessageTime.setText(c.getLastMessage().getTime());
+        viewHolder.lastMessageTime.setText(c.getLastMessage().getCreated());
 
         return convertView;
 
