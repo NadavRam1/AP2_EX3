@@ -2,6 +2,7 @@ package com.example.ap2_ex3.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -38,8 +39,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         });
 
         final SwitchPreferenceCompat activateDarkMode = findPreference("darkMode");
-        sharedPreferences = getActivity().getSharedPreferences("dark", 0);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
         Boolean bool = sharedPreferences.getBoolean("dark_mode", true);
+        if(bool) {
+
+        }
+
+//        sharedPreferences = getActivity().getSharedPreferences("dark", 0);
+//         = sharedPreferences.getBoolean("dark_mode", true);
         if (bool) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             activateDarkMode.setChecked(true);
@@ -58,6 +66,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     activateDarkMode.setChecked(true);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("dark_mode", true);
                     editor.commit();
                     reset();
 

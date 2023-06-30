@@ -69,8 +69,7 @@ public class ChatsFragment extends Fragment {
 
         chatsViewModel = ViewModelProviders.of(this).get(ChatsViewModel.class);
         chatsViewModel.getAllChats().observe(getActivity(), chatList -> {
-//            Toast.makeText(getActivity(), "ahhhhhhhhhh", Toast.LENGTH_LONG).show();
-            chatAdapter.setChatList(chatList);
+        chatAdapter.setChatList(chatList);
         });
 
         FloatingActionButton addButton = view.findViewById(R.id.addButton);
@@ -123,7 +122,6 @@ public class ChatsFragment extends Fragment {
                 } else {
                     Log.i("code", String.valueOf(response.code()));
                 }
-
             }
 
             @Override

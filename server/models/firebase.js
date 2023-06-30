@@ -11,9 +11,11 @@ async function sendNotiToUser(me, chat) {
 		to: token,
 		notification: {
 			title: me.displayName,
-			body: chat.messages[chat.messages.length - 1].content,
+			body: chat.messages[0].content,
 		},
 	};
+	console.log(noti);
+	console.log(tokens);
 	fcm.send(noti, (err, response) => {
 		if (err) {
 			console.log("Firebase failed: " + err);
@@ -25,6 +27,7 @@ async function sendNotiToUser(me, chat) {
 
 async function saveTokenInDB(token, username) {
 	tokens[username] = token;
+			console.log(tokens);
 	return 200;
 }
 

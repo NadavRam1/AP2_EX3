@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -100,9 +101,7 @@ public class ChatActivity extends AppCompatActivity {
         msgFeed.setLayoutManager(linearLayoutManager);
 //        msgFeed.scrollToPosition(messagesAdapter.getItemCount() - 1);
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        msgFeed.addItemDecoration(dividerItemDecoration);
-
+//
         EditText messageBar = findViewById(R.id.messageBar);
         messageBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -135,16 +134,6 @@ public class ChatActivity extends AppCompatActivity {
             if (!isEmpty) {
                 addMessageToDB();
                 messageBar.setText("");
-            } else {
-                View toastView = getLayoutInflater().inflate(R.layout.custom_toast, null);
-
-                TextView textView = toastView.findViewById(R.id.text_message);
-                textView.setText("fuck you");
-
-                Toast toast = new Toast(getApplicationContext());
-                toast.setDuration(Toast.LENGTH_LONG);
-                toast.setView(toastView);
-                toast.show();
             }
         });
         updateMessagesFromDB();
@@ -165,29 +154,13 @@ public class ChatActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
                     updateMessagesFromDB();
-                    Call<Void> notiCall = null;
-                    try {
-                        notiCall = api.notifyUser(token, chatsViewModel.getChat(currentChat.getId()));
-                    } catch (ExecutionException e) {
-                        throw new RuntimeException(e);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    notiCall.enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {}
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {}
-                    });
-                } else {
-                    Log.i("code", String.valueOf(response.code()));
+                    updateChatsFromDB();
+                    notifyChat();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.i("failure", t.getMessage());
-                Toast.makeText(getBaseContext(), "something wrong fuck you", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -215,9 +188,64 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Message>> call, Throwable t) {
-                Log.i("failure", t.getMessage());
-                Toast.makeText(getBaseContext(), "something wrong fuck you", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void updateChatsFromDB() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getResources().getString(R.string.BaseUrl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WebServiceAPI api = retrofit.create(WebServiceAPI.class);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String token = sharedPref.getString("token", "");
+        Call<List<Chat>> call = api.getAllChats(token);
+        call.enqueue(new Callback<List<Chat>>() {
+            @Override
+            public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
+                if (response.code() == 200) {
+                    chatsViewModel.deleteAll();
+                    chatsViewModel.insertList(response.body());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Chat>> call, Throwable t) {
+            }
+        });
+    }
+
+    public void notifyChat() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getResources().getString(R.string.BaseUrl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WebServiceAPI api = retrofit.create(WebServiceAPI.class);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String token = sharedPref.getString("token", "");
+
+        Call<Chat> chat = api.getChat(token, currentChat.getId());
+        chat.enqueue(new Callback<Chat>() {
+            @Override
+            public void onResponse(Call<Chat> call, Response<Chat> response) {
+                if(response.code() == 200) {
+                    Call<Void> notiCall = api.notifyUser(token, response.body());
+                    notiCall.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {}
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {}
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Chat> call, Throwable t) {
+
+            }
+        });
+
     }
 }

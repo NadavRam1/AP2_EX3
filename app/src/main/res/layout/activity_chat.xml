@@ -82,7 +82,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/feed_my_message_layout"/>
+            tools:listitem="@layout/feed_my_message_layout"
+            />
 
     </LinearLayout>
 

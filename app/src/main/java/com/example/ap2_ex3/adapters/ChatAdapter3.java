@@ -27,7 +27,6 @@ public class ChatAdapter3 extends RecyclerView.Adapter {
 
     public ChatAdapter3(List<Chat> chatsList) {
         this.chatsList = chatsList;
-
     }
 
 
@@ -52,8 +51,16 @@ public class ChatAdapter3 extends RecyclerView.Adapter {
 
     }
 
+    public void setChatsList(List<Chat> chatsList) {
+        this.chatsList = chatsList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
+        if(chatsList == null) {
+            return 0;
+        }
         return chatsList.size();
     }
 
