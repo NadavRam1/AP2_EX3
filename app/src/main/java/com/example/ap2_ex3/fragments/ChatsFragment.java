@@ -69,7 +69,6 @@ public class ChatsFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra("chatID", chat.getId());
                 startActivity(intent);
-
             }
         });
         networkRequest();
