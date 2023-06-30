@@ -18,7 +18,8 @@
         app:title="Server">
 
         <EditTextPreference
-            android:title="Change your server address"/>
+            android:key="server_address"
+            android:title="Press to change your server address"/>
 
 
     </PreferenceCategory>
