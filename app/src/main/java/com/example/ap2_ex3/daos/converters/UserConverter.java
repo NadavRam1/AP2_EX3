@@ -1,4 +1,4 @@
-package com.example.ap2_ex3.converters;
+package com.example.ap2_ex3.daos.converters;
 
 import android.util.Log;
 
@@ -13,9 +13,7 @@ public class UserConverter {
 
     @TypeConverter
     public User StringToUser(String value) {
-        Log.d("code", value);
         List<String> userList = Arrays.asList(value.split(","));
-
         return new User(userList.get(0), userList.get(1), userList.get(2), userList.get(3));
     }
 

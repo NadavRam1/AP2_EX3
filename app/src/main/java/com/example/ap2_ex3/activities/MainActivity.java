@@ -3,8 +3,10 @@ package com.example.ap2_ex3.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -38,10 +40,14 @@ public class MainActivity extends AppCompatActivity {
     EditText username, password, verifyPassword, displayName;
     private ImageView profilePic;
     CheckBox robotCheck;
-    UsersRepository usersRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
+        if (sharedPref.contains("me")) {
+            Intent intent = new Intent(this, MenuActivity.class);
+            startActivity(intent);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -105,12 +111,10 @@ public class MainActivity extends AppCompatActivity {
                 displayName.getText().toString(),
                 profilePic.toString());
         Call<Void> call = api.createUser(user);
-        usersRepository = new UsersRepository(getApplication());
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
-                    usersRepository.insert(user);
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }

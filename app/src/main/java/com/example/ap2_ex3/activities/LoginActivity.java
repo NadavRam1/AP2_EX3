@@ -27,9 +27,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
-
     EditText username, password;
-    private static final String URL_DATA = "http://10.0.2.2:5000/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +102,8 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("token", "Bearer " + token);
                     editor.putString("me", username.getText().toString());
                     editor.apply();
-                    Intent tempIntent = new Intent(LoginActivity.this, MenuActivity.class);
-                    startActivity(tempIntent);
+                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                    startActivity(intent);
                 } else {
                     Log.i("code", String.valueOf(response.code()));
                     // Handle the case when the response is not successful or the body is null

@@ -6,10 +6,9 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.example.ap2_ex3.converters.DisplayedUserConverter;
-import com.example.ap2_ex3.converters.MessagesConverter;
+import com.example.ap2_ex3.daos.converters.DisplayedUserConverter;
+import com.example.ap2_ex3.daos.converters.MessagesConverter;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
