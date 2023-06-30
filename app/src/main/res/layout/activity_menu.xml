@@ -21,7 +21,7 @@
                 android:id="@+id/topbarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="Welcome displayName"
+                app:title="GOAT's Whatsapp"
                 app:titleTextColor="@color/white"
                 app:navigationIcon="@drawable/ic_btn_menu"
                 android:background="@color/barColor"
