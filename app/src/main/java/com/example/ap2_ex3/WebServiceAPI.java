@@ -2,6 +2,7 @@ package com.example.ap2_ex3;
 
 
 import com.example.ap2_ex3.entities.Chat;
+import com.example.ap2_ex3.entities.FirebaseToken;
 import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.entities.MessageContent;
 import com.example.ap2_ex3.entities.User;
@@ -44,10 +45,12 @@ public interface WebServiceAPI {
     @GET("api/Users/{username}")
     Call<Void> getUser(@Header("Authorization") String token, @Path("username") String username);
 
-    @POST("/api/Users")
+    @POST("api/Users")
     Call<Void> createUser(@Body User user); //need user object?
 
+    @POST("api/firebase/saveToken")
+    Call<Void> saveToken(@Header("Authorization") String token, @Body FirebaseToken firebaseToken);
 
-
-
+    @POST("api/firebase/sendNotification")
+    Call<Void> notifyUser(@Header("Authorization") String token, @Body Chat chat);
 }

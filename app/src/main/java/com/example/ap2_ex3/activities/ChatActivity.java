@@ -1,6 +1,9 @@
 package com.example.ap2_ex3.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,16 +28,11 @@ import com.example.ap2_ex3.adapters.MessagesAdapter;
 import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.entities.Message;
 import com.example.ap2_ex3.entities.MessageContent;
-import com.example.ap2_ex3.entities.UserName;
-import com.example.ap2_ex3.repositories.ChatsRepository;
 import com.example.ap2_ex3.viewmodels.ChatsViewModel;
 import com.example.ap2_ex3.viewmodels.MessagesViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -51,10 +50,21 @@ public class ChatActivity extends AppCompatActivity {
     ChatsViewModel chatsViewModel;
     MessagesViewModel messagesViewModel;
 
+    BroadcastReceiver messageReceiver;
+    LocalBroadcastManager localBroadcastManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        messageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                updateMessagesFromDB();
+            }
+        };
+        localBroadcastManager.registerReceiver(messageReceiver, new IntentFilter("messageReceived"));
 
         chatsViewModel = ViewModelProviders.of(this).get(ChatsViewModel.class);
         messagesViewModel = ViewModelProviders.of(this).get(MessagesViewModel.class);
@@ -155,6 +165,20 @@ public class ChatActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
                     updateMessagesFromDB();
+                    Call<Void> notiCall = null;
+                    try {
+                        notiCall = api.notifyUser(token, chatsViewModel.getChat(currentChat.getId()));
+                    } catch (ExecutionException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    notiCall.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {}
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {}
+                    });
                 } else {
                     Log.i("code", String.valueOf(response.code()));
                 }

@@ -1,0 +1,196 @@
+img {
+    height: 45px;
+    width: 45px;
+}
+
+.contact {
+    background-color: rgb(24, 24, 24);
+    border-color: black;
+    height: 10%;
+}
+
+.contact:hover {
+    background-color: cyan;
+    cursor: pointer;
+}
+
+.contact:focus-within {
+    background-color: blue;
+
+}
+
+.inputText {
+    color: white;
+}
+
+
+
+.inputText:focus {
+    color: white;
+    box-shadow: none;
+}
+
+.inputText::placeholder {
+    color: white;
+}
+
+.inputText:focus::placeholder {
+    color: transparent;
+}
+
+.otherMessage {
+    position: relative;
+    top: 5%;
+    left: 5%;
+    border-radius: 10px;
+    background-color: #2a3238;
+    color: white;
+    width: fit-content;
+    max-width: 300px;
+    padding: 10px;
+    margin: 1px;
+}
+
+.myMessage {
+    position: relative;
+    top: 5%;
+    right: 5%;
+    border-radius: 10px;
+    background-color: #014c31;
+    color: white;
+    width: fit-content;
+    word-break: break-word;
+    max-width: 20%;
+    padding: 10px;
+    margin: 1px;
+}
+
+.date {
+    float: right;
+}
+
+#me {
+    background-color: rgb(48, 48, 48);
+    height: 10vh;
+}
+
+#searchBar>input {
+    background-color: rgb(48, 48, 48);
+    border: none;
+    margin-right: 3px;
+}
+
+#searchBar>input:focus {
+    background-color: rgb(48, 48, 48);
+}
+
+#searchBar>span {
+    background-color: rgb(48, 48, 48);
+    border: none;
+}
+
+#searchBar>span>i {
+    color: white;
+}
+
+#searchBar {
+    width: 90%;
+}
+
+#searchButton {
+    background-color: rgb(48, 48, 48);
+    color: white;
+    border: none;
+}
+
+#messageBar>input {
+    background-color: rgb(60, 60, 60);
+    border-color: gray;
+    border-radius: 7px;
+    margin-right: 5px;
+}
+
+#messageBar>input:focus {
+    background-color: rgb(60, 60, 60);
+    border-color: gray;
+}
+
+.inputText>button {
+    background-color: rgb(29, 29, 36);
+    color: white;
+    border: none;
+}
+
+#sendButton {
+    background-color: rgb(29, 29, 36);
+    color: white;
+    border: none;
+}
+
+#messageBar>button:focus {
+    border: none;
+}
+
+#messageBar {
+    margin-top: 2%;
+}
+
+#filter {
+    color: lightgray;
+}
+
+#addContact {
+    color: gray;
+}
+
+#chats {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    height: 80vh;
+}
+
+#chats::-webkit-scrollbar {
+    display: none;
+}
+
+#chat {
+    background-image: url(backgroundPhoto.jpg);
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    height: 79vh;
+}
+
+#chat::-webkit-scrollbar {
+    display: none;
+}
+
+#chatBlock {
+    background-color: rgb(29, 29, 36);
+}
+
+#contactBlock {
+    background-color: rgb(24, 24, 24);
+}
+
+#window {
+    overflow: hidden;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+}
+
+.list-group-item.active {
+    background-color: #0d6efd;
+}
+
+.row {
+    height: 100%;
+}
+
+.lastMessage {
+    display:inline-block;
+    max-width: 90vw !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+}
