@@ -75,7 +75,6 @@ public class ChatActivity extends AppCompatActivity {
         chatsViewModel = ViewModelProviders.of(this).get(ChatsViewModel.class);
         messagesViewModel = ViewModelProviders.of(this).get(MessagesViewModel.class);
         messagesViewModel.getAllMessages().observe(this, messageList -> {
-            Toast.makeText(this, "ahhhhhhhhhh", Toast.LENGTH_LONG).show();
             messagesAdapter.setMessageList(messageList);
         });
 
@@ -165,8 +164,7 @@ public class ChatActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-            }
+            public void onFailure(Call<Void> call, Throwable t) {}
         });
     }
 
@@ -186,14 +184,11 @@ public class ChatActivity extends AppCompatActivity {
                     messagesViewModel.deleteAll();
                     Collections.reverse(response.body());
                     messagesViewModel.insertList(response.body());
-                } else {
-                    Log.i("code", String.valueOf(response.code()));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Message>> call, Throwable t) {
-            }
+            public void onFailure(Call<List<Message>> call, Throwable t) {}
         });
     }
 
@@ -213,12 +208,10 @@ public class ChatActivity extends AppCompatActivity {
                     chatsViewModel.deleteAll();
                     chatsViewModel.insertList(response.body());
                 }
-
             }
 
             @Override
-            public void onFailure(Call<List<Chat>> call, Throwable t) {
-            }
+            public void onFailure(Call<List<Chat>> call, Throwable t) {}
         });
     }
 
@@ -247,9 +240,7 @@ public class ChatActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Chat> call, Throwable t) {
-
-            }
+            public void onFailure(Call<Chat> call, Throwable t) {}
         });
 
     }

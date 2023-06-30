@@ -123,18 +123,10 @@ public class MainActivity extends AppCompatActivity {
         Call<Void> messagesCall = api.saveToken(token, firebaseToken);
         messagesCall.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.code() == 200) {
-
-                } else {
-
-                }
-            }
+            public void onResponse(Call<Void> call, Response<Void> response) {}
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-
-            }
+            public void onFailure(Call<Void> call, Throwable t) {}
         });
     }
 
@@ -157,19 +149,11 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
-                else {
-                    // Handle the case when the response is not successful or the body is null
-//                    username.setError(response.body());
-                    Log.d("TAG", String.valueOf(response.code()));
-                }
             }
 
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Log.d("TAG", t.getMessage());
-            }
-
+            public void onFailure(Call<Void> call, Throwable t) {}
         });
     }
 

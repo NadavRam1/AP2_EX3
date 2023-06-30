@@ -81,10 +81,6 @@ public class HomeFragment extends Fragment {
         defaultURL = getResources().getString(R.string.BaseUrl);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
         baseURL = sharedPreferences.getString("base_url", defaultURL);
-//        sharedPreferences.getString("base_url", defaultURL);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.remove("base_url");
-//        editor.commit();
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(getActivity(), instanceIdResult -> {
             String firebaseToken = instanceIdResult.getToken();
@@ -109,18 +105,10 @@ public class HomeFragment extends Fragment {
         Call<Void> messagesCall = api.saveToken(token, firebaseToken);
         messagesCall.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.code() == 200) {
-                    Log.i("firebase", "Added successfully");
-                } else {
-                    Log.i("firebase", String.valueOf(response.code()));
-                }
-            }
+            public void onResponse(Call<Void> call, Response<Void> response) {}
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Log.i("failure", t.getMessage());
-            }
+            public void onFailure(Call<Void> call, Throwable t) {}
         });
     }
 }

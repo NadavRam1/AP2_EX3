@@ -69,19 +69,13 @@ public class AddContactActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Chat> call, Response<Chat> response) {
                 if (response.code() == 200) {
-
                     chatsViewModel.insert(response.body());
                     finish();
-                } else {
-
                 }
-
             }
 
             @Override
-            public void onFailure(Call<Chat> call, Throwable t) {
-
-            }
+            public void onFailure(Call<Chat> call, Throwable t) {}
         });
     }
 }
