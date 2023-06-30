@@ -6,8 +6,8 @@
         app:title="Design">
 
         <SwitchPreferenceCompat
-            app:key="dark"
-            app:title="Activate Dark-Mode"
+            app:key="darkMode"
+            app:title="Dark-Mode"
             android:summaryOff="Ahh I'm blind it's too bright"
             android:summaryOn="Nice dude you're the Man!"/>
 

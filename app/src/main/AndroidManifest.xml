@@ -23,15 +23,6 @@
             android:name=".CheckActivity2"
             android:exported="false" />
 
-        <service
-            android:name=".MyService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-
         <activity
             android:name=".CheckActivity"
             android:exported="false" />

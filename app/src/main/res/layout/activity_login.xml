@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/signing_pages_background"
+    android:background="@drawable/background_image"
     tools:context=".activities.LoginActivity">
 
     <LinearLayout
@@ -44,9 +44,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:backgroundTint="@color/barGreen"
+            android:backgroundTint="@color/barColor"
             android:text="@string/loginBtn"
-            android:textColor="@color/black" />
+            android:textColor="@color/textColor" />
 
         <TextView
             android:id="@+id/unregisteredText"

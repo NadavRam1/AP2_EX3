@@ -24,7 +24,7 @@
                 app:title="Welcome displayName"
                 app:titleTextColor="@color/white"
                 app:navigationIcon="@drawable/ic_btn_menu"
-                android:background="@color/barGreen"
+                android:background="@color/barColor"
                 app:menu="@menu/toolbar_menu"/>
 
         </com.google.android.material.appbar.AppBarLayout>

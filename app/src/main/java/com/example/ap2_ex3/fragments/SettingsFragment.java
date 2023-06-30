@@ -3,9 +3,13 @@ package com.example.ap2_ex3.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreference;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.example.ap2_ex3.R;
 
@@ -14,6 +18,7 @@ import java.util.Objects;
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private EditTextPreference serverAddressPreference;
+    public SharedPreferences sharedPreferences;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -31,6 +36,49 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 return true; // Return true to save the new value
             }
         });
+
+        final SwitchPreferenceCompat activateDarkMode = findPreference("darkMode");
+        sharedPreferences = getActivity().getSharedPreferences("dark", 0);
+        Boolean bool = sharedPreferences.getBoolean("dark_mode", true);
+        if (bool) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            activateDarkMode.setChecked(true);
+        }
+
+
+
+        activateDarkMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                // Cast the new value to boolean
+                boolean isDarkModeEnabled = (boolean) newValue;
+
+                // Handle the dark mode change
+                if (isDarkModeEnabled) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    activateDarkMode.setChecked(true);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.commit();
+                    reset();
+
+                    // Return true to save the new value
+                    return true;
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    activateDarkMode.setChecked(false);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("dark_mode", false);
+                    editor.commit();
+                    reset();
+                    return false;
+                }
+            }
+        });
+
+    }
+
+    private void reset() {
+
     }
 
     @Override

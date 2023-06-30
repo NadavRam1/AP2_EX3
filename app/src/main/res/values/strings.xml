@@ -37,6 +37,7 @@
 
     </string>
     <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="app">App</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

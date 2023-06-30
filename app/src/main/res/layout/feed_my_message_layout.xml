@@ -14,7 +14,7 @@
         android:background="@drawable/sent_message_background"
         android:padding="12dp"
         android:paddingBottom="16dp"
-        android:textColor="@color/black"
+        android:textColor="@color/textColor"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

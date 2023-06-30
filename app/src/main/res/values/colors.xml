@@ -2,9 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="barGreen">#075E54</color>
+    <color name="barColor">#128C7E</color>
     <color name="blue">#0000FF</color>
-    <color name="messageSentGreen">#25D366</color>
+    <color name="outgoingMessageColor">#DCF8C6</color>
+    <color name="ingoingMessageColor">#FFFFFF</color>
     <color name="secondaryColor">#808080</color>
-
+    <color name="chatsBackgroundColor">#FFFFFF</color>
+    <color name="textColor">#000000</color>
 </resources>
