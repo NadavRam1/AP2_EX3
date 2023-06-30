@@ -3,6 +3,7 @@ package com.example.ap2_ex3.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -42,12 +43,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
         Boolean bool = sharedPreferences.getBoolean("dark_mode", true);
-        if(bool) {
 
-        }
-
-//        sharedPreferences = getActivity().getSharedPreferences("dark", 0);
-//         = sharedPreferences.getBoolean("dark_mode", true);
         if (bool) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             activateDarkMode.setChecked(true);
@@ -110,12 +106,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     }
 
     private void updateServerAddressSummary(String serverAddress) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("base_url");
+        editor.putString("base_url", serverAddress);
+        editor.commit();
         // Update the summary of the EditTextPreference
         if (!Objects.equals(serverAddress, "")) {
             serverAddressPreference.setSummary("Currently at use: " + serverAddress);
         }
         else {
             serverAddressPreference.setSummary(serverAddress);
+            serverAddressPreference.setSummary("No server currently at use");
         }
 
     }

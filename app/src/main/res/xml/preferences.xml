@@ -19,7 +19,8 @@
 
         <EditTextPreference
             android:key="server_address"
-            android:title="Press to change your server address"/>
+            android:title="Press to change your server address"
+            android:defaultValue="@string/BaseUrl"/>
 
 
     </PreferenceCategory>
