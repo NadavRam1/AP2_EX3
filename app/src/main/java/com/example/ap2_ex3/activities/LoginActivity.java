@@ -28,11 +28,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
     EditText username, password;
+    private String defaultURL;
+    private SharedPreferences sharedPreferences;
+    private String baseURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        defaultURL = getResources().getString(R.string.BaseUrl);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        baseURL = sharedPreferences.getString("base_url", defaultURL);
 
         TextView textView = findViewById(R.id.unregisteredText);
         String unregisteredText = getResources().getString(R.string.unregisteredText);
@@ -51,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             public void updateDrawState(TextPaint ds) {
                 super.updateDrawState(ds);
                 // Customize the appearance of the ClickableSpan (blue color and underline)
-                ds.setColor(getResources().getColor(R.color.blue));
+                ds.setColor(getResources().getColor(R.color.linkColor));
                 ds.setUnderlineText(true);
             }
         };
@@ -83,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 .setLenient()
                 .create();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.BaseUrl))
+                .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);

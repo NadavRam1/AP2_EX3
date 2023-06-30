@@ -6,7 +6,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.example.ap2_ex3.daos.converters.UserNameConverter;
+import com.example.ap2_ex3.converters.UserNameConverter;
 
 @Entity(tableName = "MessagesDB", indices = @Index(value = {"id"},unique = true))
 @TypeConverters({UserNameConverter.class})

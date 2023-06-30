@@ -1,6 +1,4 @@
-package com.example.ap2_ex3.daos.converters;
-
-import android.util.Log;
+package com.example.ap2_ex3.converters;
 
 import androidx.room.TypeConverter;
 

@@ -4,14 +4,13 @@ var fcm = new FCM(serverKey);
 var tokens = {};
 
 async function sendNotiToUser(me, chat) {
-	console.log(chat);
-	console.log(me);
+
 	token = tokens[chat.user.username];
 	var noti = {
 		to: token,
 		notification: {
 			title: me.displayName,
-			body: chat.messages[chat.messages.length - 1].content,
+			body: chat.messages[0].content,
 		},
 	};
 	fcm.send(noti, (err, response) => {

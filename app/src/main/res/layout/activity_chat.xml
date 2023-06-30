@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background_image">
 
     <RelativeLayout
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/barGreen">
+        android:background="@color/barColor">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -74,22 +75,22 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/signing_pages_background">
+        android:background="@drawable/background_image">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/msgFeed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/feed_my_message_layout"/>
+            tools:listitem="@layout/feed_my_message_layout"
+            />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/messageBar"
@@ -98,7 +99,7 @@
             android:layout_marginStart="16sp"
             android:layout_marginEnd="10dp"
             android:hint="@string/message_hint"
-            android:textColorHint="@color/black"
+            android:textColorHint="@color/secondaryColor"
             android:paddingLeft="16dp"
             android:layout_marginBottom="12dp"
             android:layout_marginTop="12dp"
@@ -112,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:src="@drawable/ic_btn_record"
-            android:backgroundTint="@color/barGreen"
+            android:backgroundTint="@color/barColor"
             android:layout_margin="10dp"
             app:shapeAppearance="@style/Widget.Material3.CircularProgressIndicator"/>
 

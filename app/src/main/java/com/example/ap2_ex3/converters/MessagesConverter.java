@@ -1,6 +1,4 @@
-package com.example.ap2_ex3.daos.converters;
-
-import android.util.Log;
+package com.example.ap2_ex3.converters;
 
 import androidx.room.TypeConverter;
 
@@ -23,7 +21,7 @@ public class MessagesConverter {
 
         while (matcher.find()) {
             String messageString = matcher.group();
-            messageString = messageString.substring(1, messageString.length() - 2);
+            messageString = messageString.substring(1, messageString.length() - 1);
             String[] components = messageString.split(",");
 
             int id = Integer.parseInt(components[0]);

@@ -23,9 +23,9 @@
     <string name="register_navMessage">Register</string>
     <string name="danger_category">Danger</string>
     <string name="add_text">Add</string>
-    <string name="BaseUrl">http://10.0.2.2:5000/</string>
+    <string name="BaseUrl">http://192.168.2.107:5000/</string>
     <string name="choosePic">choose a picture from your local storage
-                 (click on the icon below)</string>
+                 (click below)</string>
     <string name="home_fragment_message">
         Welcome to the GOAT\'s Whatsapp
         now available for Android!!!
@@ -37,6 +37,7 @@
 
     </string>
     <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="app">App</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -52,4 +53,5 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="add_contact_text">Add Contact</string>
 </resources>

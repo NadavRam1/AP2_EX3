@@ -1,4 +1,4 @@
-package com.example.ap2_ex3.daos.converters;
+package com.example.ap2_ex3.converters;
 
 import androidx.room.TypeConverter;
 
