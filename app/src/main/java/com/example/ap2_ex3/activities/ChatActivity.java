@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ap2_ex3.R;
@@ -72,6 +73,10 @@ public class ChatActivity extends AppCompatActivity {
         }
         displayName.setText(currentChat.getUser().getDisplayName());
 
+        View back = findViewById(R.id.backBtn);
+        back.setOnClickListener(view -> {
+            finish();
+        });
         FloatingActionButton btn = findViewById(R.id.recordOrSendBtn);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -79,6 +84,11 @@ public class ChatActivity extends AppCompatActivity {
         messagesAdapter = new MessagesAdapter(me);
         msgFeed = findViewById(R.id.msgFeed);
         msgFeed.setAdapter(messagesAdapter);
+
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setStackFromEnd(true);
+        msgFeed.setLayoutManager(linearLayoutManager);
+//        msgFeed.scrollToPosition(messagesAdapter.getItemCount() - 1);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         msgFeed.addItemDecoration(dividerItemDecoration);
