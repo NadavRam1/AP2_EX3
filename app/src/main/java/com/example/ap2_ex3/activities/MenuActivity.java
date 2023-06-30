@@ -15,11 +15,13 @@ import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.fragments.ChatsFragment;
 import com.example.ap2_ex3.fragments.HomeFragment;
 import com.example.ap2_ex3.fragments.LogoutFragment;
+import com.example.ap2_ex3.fragments.SettingsFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 
 public class MenuActivity extends AppCompatActivity {
 
+    private int id = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +35,14 @@ public class MenuActivity extends AppCompatActivity {
             drawerLayout.openDrawer(GravityCompat.START);
         });
 
+        if (id == 0) {
+            replaceFragments(new HomeFragment());
+        }
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
+                id = item.getItemId();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 if (id == R.id.nav_home) {
                     replaceFragments(new HomeFragment());
@@ -44,6 +50,8 @@ public class MenuActivity extends AppCompatActivity {
                     replaceFragments(new ChatsFragment());
                 } else if (id == R.id.nav_logout) {
                     replaceFragments(new LogoutFragment());
+                } else  if (id == R.id.nav_settings) {
+                    replaceFragments(new SettingsFragment());
                 } else {
                     return true;
                 }
