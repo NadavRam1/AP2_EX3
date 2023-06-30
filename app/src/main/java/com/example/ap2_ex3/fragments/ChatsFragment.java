@@ -1,6 +1,9 @@
 package com.example.ap2_ex3.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +41,8 @@ public class ChatsFragment extends Fragment {
     private RecyclerView lstFeed;
     private ChatAdapter4 chatAdapter;
     private ChatsViewModel chatsViewModel;
+    BroadcastReceiver messageReceiver;
+    LocalBroadcastManager localBroadcastManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +50,16 @@ public class ChatsFragment extends Fragment {
 
         lstFeed = view.findViewById(R.id.lstFeed);
         lstFeed.setHasFixedSize(true);
+
+        localBroadcastManager = LocalBroadcastManager.getInstance(this.getActivity());
+        messageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                networkRequest();
+            }
+        };
+        localBroadcastManager.registerReceiver(messageReceiver, new IntentFilter("messageReceived"));
+
 
         chatAdapter = new ChatAdapter4();
         lstFeed.setAdapter(chatAdapter);
