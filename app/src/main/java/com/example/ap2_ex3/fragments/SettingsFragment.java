@@ -110,7 +110,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("base_url");
-        editor.putString("base_url", "http://" + serverAddress);
+        editor.putString("base_url", serverAddress);
         editor.commit();
         // Update the summary of the EditTextPreference
         if (!Objects.equals(serverAddress, "")) {

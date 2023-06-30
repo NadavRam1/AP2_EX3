@@ -112,16 +112,12 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     startActivity(intent);
                 } else {
-                    Log.i("code", String.valueOf(response.code()));
-                    // Handle the case when the response is not successful or the body is null
                     username.setError(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.i("failure", t.getMessage());
-            }
+            public void onFailure(Call<String> call, Throwable t) {}
         });
     }
 

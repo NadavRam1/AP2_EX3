@@ -7,11 +7,9 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -23,7 +21,7 @@ import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.WebServiceAPI;
 import com.example.ap2_ex3.activities.AddContactActivity;
 import com.example.ap2_ex3.activities.ChatActivity;
-import com.example.ap2_ex3.adapters.ChatAdapter4;
+import com.example.ap2_ex3.adapters.ChatAdapter;
 import com.example.ap2_ex3.entities.Chat;
 import com.example.ap2_ex3.viewmodels.ChatsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //
 public class ChatsFragment extends Fragment {
     private RecyclerView lstFeed;
-    private ChatAdapter4 chatAdapter;
+    private ChatAdapter chatAdapter;
     private ChatsViewModel chatsViewModel;
     BroadcastReceiver messageReceiver;
     LocalBroadcastManager localBroadcastManager;
@@ -68,7 +66,7 @@ public class ChatsFragment extends Fragment {
         localBroadcastManager.registerReceiver(messageReceiver, new IntentFilter("messageReceived"));
 
 
-        chatAdapter = new ChatAdapter4();
+        chatAdapter = new ChatAdapter();
         lstFeed.setAdapter(chatAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
@@ -85,13 +83,10 @@ public class ChatsFragment extends Fragment {
             startActivity(i);
         });
 
-        chatAdapter.setOnItemClickListener(new ChatAdapter4.OnItemClickListener() {
-            @Override
-            public void onItemClick(Chat chat) {
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("chatID", chat.getId());
-                startActivity(intent);
-            }
+        chatAdapter.setOnItemClickListener(chat -> {
+            Intent intent = new Intent(getActivity(), ChatActivity.class);
+            intent.putExtra("chatID", chat.getId());
+            startActivity(intent);
         });
         networkRequest();
         return view;
@@ -111,16 +106,11 @@ public class ChatsFragment extends Fragment {
                 if (response.code() == 200) {
                     chatsViewModel.deleteAll();
                     chatsViewModel.insertList(response.body());
-                } else {
-                    Log.i("code", String.valueOf(response.code()));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Chat>> call, Throwable t) {
-                Log.i("failure", t.getMessage());
-                Toast.makeText(getContext(), "something wrong fuck you", Toast.LENGTH_LONG).show();
-            }
+            public void onFailure(Call<List<Chat>> call, Throwable t) {}
         });
     }
 
