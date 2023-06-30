@@ -4,4 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="barGreen">#075E54</color>
     <color name="blue">#0000FF</color>
+    <color name="messageSentGreen">#25D366</color>
+    <color name="secondaryColor">#808080</color>
+
 </resources>

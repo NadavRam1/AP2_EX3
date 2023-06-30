@@ -1,4 +1,4 @@
-package com.example.ap2_ex3;
+package com.example.ap2_ex3.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,25 +8,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Switch;
 
-import com.example.ap2_ex3.ChatsFragment;
-import com.example.ap2_ex3.HomeFragment;
+import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.fragments.ChatsFragment;
+import com.example.ap2_ex3.fragments.HomeFragment;
+import com.example.ap2_ex3.fragments.LogoutFragment;
+import com.example.ap2_ex3.fragments.SettingsFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
-import java.util.List;
-import com.google.android.material.appbar.MaterialToolbar;
-
 public class MenuActivity extends AppCompatActivity {
 
+    private int id = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,15 +35,23 @@ public class MenuActivity extends AppCompatActivity {
             drawerLayout.openDrawer(GravityCompat.START);
         });
 
+        if (id == 0) {
+            replaceFragments(new HomeFragment());
+        }
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
+                id = item.getItemId();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 if (id == R.id.nav_home) {
                     replaceFragments(new HomeFragment());
                 } else if (id == R.id.nav_chats) {
                     replaceFragments(new ChatsFragment());
+                } else if (id == R.id.nav_logout) {
+                    replaceFragments(new LogoutFragment());
+                } else  if (id == R.id.nav_settings) {
+                    replaceFragments(new SettingsFragment());
                 } else {
                     return true;
                 }
@@ -63,9 +66,5 @@ public class MenuActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
-
-
     }
-
-
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawerLayout"
-    tools:context=".MenuActivity">
+    tools:context=".activities.MenuActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,17 +21,18 @@
                 android:id="@+id/topbarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="@string/whatsapp_title"
+                app:title="Welcome displayName"
                 app:titleTextColor="@color/white"
                 app:navigationIcon="@drawable/ic_btn_menu"
                 android:background="@color/barGreen"
                 app:menu="@menu/toolbar_menu"/>
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/frameLayout"
             android:layout_below="@+id/appbarLayout" />
 
     </RelativeLayout>

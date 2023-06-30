@@ -1,0 +1,28 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        app:icon="@drawable/ic_btn_design"
+        app:title="Design">
+
+        <SwitchPreferenceCompat
+            app:key="dark"
+            app:title="Activate Dark-Mode"
+            android:summaryOff="Ahh I'm blind it's too bright"
+            android:summaryOn="Nice dude you're the Man!"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:icon="@drawable/ic_btn_edit"
+        app:title="Server">
+
+        <EditTextPreference
+            android:key="server_address"
+            android:title="Press to change your server address"/>
+
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

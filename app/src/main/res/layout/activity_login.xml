@@ -5,31 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/signing_pages_background"
-    tools:context=".LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center">
+        app:layout_constraintVertical_bias="0.3">
 
         <EditText
             android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="380dp"
+            android:layout_height="40dp"
             android:layout_marginTop="8dp"
-            android:inputType="text"
-            android:hint="@string/usernameHint" />
+            android:background="@drawable/rounded_white_background"
+            android:paddingLeft="10dp"
+            android:hint="@string/usernameHint"
+            android:inputType="text" />
 
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/passwordHint"
+            android:layout_width="380dp"
+            android:layout_height="40dp"
             android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_white_background"
+            android:paddingLeft="10dp"
+            android:hint="@string/passwordHint"
             android:inputType="textPassword" />
 
         <Button
@@ -37,7 +44,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/loginBtn"/>
+            android:backgroundTint="@color/barGreen"
+            android:text="@string/loginBtn"
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/unregisteredText"
             android:layout_width="wrap_content"

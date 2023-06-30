@@ -1,4 +1,4 @@
-package com.example.ap2_ex3;
+package com.example.ap2_ex3.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,10 +7,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ap2_ex3.Chat;
+import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.entities.Chat;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ChatAdapter extends BaseAdapter {
 
@@ -23,7 +23,7 @@ public class ChatAdapter extends BaseAdapter {
         ImageView profilePic;
     }
 
-    public ChatAdapter(List<Chat> chats) {
+    public ChatAdapter() {
         this.chats = chats;
     }
 
@@ -42,6 +42,10 @@ public class ChatAdapter extends BaseAdapter {
         return 0;
     }
 
+    public void setChats(List<Chat> c) {
+        chats = c;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null) {
@@ -57,10 +61,10 @@ public class ChatAdapter extends BaseAdapter {
         }
         Chat c = chats.get(position);
         ViewHolder viewHolder = (ViewHolder) convertView.getTag();
-        viewHolder.displayName.setText(c.getDisplayName());
-        viewHolder.profilePic.setImageResource(c.getProfilePic());
-        viewHolder.lastMessage.setText(c.getLastMessage());
-        viewHolder.lastMessageTime.setText(c.getLastMessageTime());
+        viewHolder.displayName.setText(c.getUser().getDisplayName());
+//        viewHolder.profilePic.setImageResource(c.getUser().getProfilePic());
+        viewHolder.lastMessage.setText(c.getLastMessage().getContent());
+        viewHolder.lastMessageTime.setText(c.getLastMessage().getCreated());
 
         return convertView;
 

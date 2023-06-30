@@ -1,32 +1,53 @@
-package com.example.ap2_ex3;
+package com.example.ap2_ex3.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.ap2_ex3.R;
+import com.example.ap2_ex3.WebServiceAPI;
+import com.example.ap2_ex3.entities.User;
+import com.example.ap2_ex3.repositories.UsersRepository;
 
 import java.util.regex.Pattern;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_PICK = 1;
+    private static final String URL_DATA = "http://10.0.2.2:5000/";
     EditText username, password, verifyPassword, displayName;
+    private ImageView profilePic;
     CheckBox robotCheck;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
+        if (sharedPref.contains("me")) {
+            Intent intent = new Intent(this, MenuActivity.class);
+            startActivity(intent);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -68,19 +89,54 @@ public class MainActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         verifyPassword = findViewById(R.id.verifyPassword);
         displayName = findViewById(R.id.displayName);
+        profilePic = findViewById(R.id.profilePic);
         robotCheck = findViewById(R.id.robotCheck);
 
         signUpButton.setOnClickListener(view -> {
-            if(CheckAllFields()) {
-                //creates another intent and transfer to login after saving the data
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
+            if(checkAllFields()) {
+                networkRequest();
             }
         });
-
     }
 
-    private boolean CheckAllFields() {
+
+   private void networkRequest() {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(getResources().getString(R.string.BaseUrl))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WebServiceAPI api = retrofit.create(WebServiceAPI.class);
+        User user = new User(username.getText().toString(),
+                password.getText().toString(),
+                displayName.getText().toString(),
+                profilePic.toString());
+        Call<Void> call = api.createUser(user);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+//                else {
+//                    // Handle the case when the response is not successful or the body is null
+////                    username.setError(response.body());
+//                }
+            }
+
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+        });
+    }
+
+
+
+
+    private boolean checkAllFields() {
         if (username.length() == 0) {
             username.setError("This field is required");
             return false;
@@ -98,18 +154,19 @@ public class MainActivity extends AppCompatActivity {
             displayName.setError("This field is required");
             return false;
         }
+        if (profilePic == null) {
+            return false;
+        }
         if (!robotCheck.isChecked()) {
             robotCheck.setError("This field is required");
             return false;
         }
-
 
         Pattern usernamePattern = Pattern.compile("^[a-zA-Z]+$");
         if (!usernamePattern.matcher(username.getText().toString()).matches()) {
             username.setError("Username must contain only letters");
             return false;
         }
-
         if (password.length() < 8) {
             password.setError("Password must be minimum 8 characters");
             return false;
@@ -138,17 +195,14 @@ public class MainActivity extends AppCompatActivity {
             password.setError("Password must contain at least one uppercase letter");
             return false;
         }
-
         if (!password.getText().toString().equals(verifyPassword.getText().toString())) {
             verifyPassword.setError("The password must match in both fields");
             return false;
         }
-
         if (!usernamePattern.matcher(displayName.getText()).matches()) {
             displayName.setError("display name must contain only letters");
             return false;
         }
-
         return true;
     }
 
@@ -159,10 +213,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
-            ImageView imageView = findViewById(R.id.imageView);
-            imageView.setImageURI(selectedImageUri);
+            profilePic = findViewById(R.id.profilePic);
+            profilePic.setImageURI(selectedImageUri);
         }
     }
 }

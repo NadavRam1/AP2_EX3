@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/signing_pages_background"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,13 +13,16 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center">
+        android:gravity="center"
+        app:layout_constraintVertical_bias="0.3">
 
         <EditText
             android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="380dp"
+            android:layout_height="40dp"
             android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_white_background"
+            android:paddingLeft="10dp"
             android:inputType="text"
             android:hint="@string/usernameHint"
             android:autofillHints="username"/>
@@ -27,37 +30,50 @@
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="380dp"
+            android:layout_height="40dp"
             android:hint="@string/passwordHint"
+            android:background="@drawable/rounded_white_background"
+            android:paddingLeft="10dp"
             android:autofillHints="password"
             android:layout_marginTop="8dp"
             android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/verifyPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="380dp"
+            android:layout_height="40dp"
             android:hint="@string/confirm_password_text"
+            android:background="@drawable/rounded_white_background"
+            android:paddingLeft="10dp"
             android:autofillHints="verifyPassword"
             android:layout_marginTop="8dp"
             android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/displayName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="380dp"
+            android:layout_height="40dp"
             android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_white_background"
+            android:paddingLeft="10dp"
             android:inputType="text"
             android:hint="@string/display_name_text"
             android:autofillHints="displayName"/>
 
+        <TextView
+            android:paddingTop="15dp"
+            android:text="@string/choosePic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/profilePic"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/placeholder_image"
+            android:src="@drawable/no_image_selected"
             android:onClick="selectImage" />
 
         <CheckBox
@@ -72,6 +88,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:backgroundTint="@color/barGreen"
+            android:textColor="@color/black"
             android:text="@string/signUp"/>
         <TextView
             android:id="@+id/registeredText"
