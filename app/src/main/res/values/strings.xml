@@ -23,7 +23,7 @@
     <string name="register_navMessage">Register</string>
     <string name="danger_category">Danger</string>
     <string name="add_text">Add</string>
-    <string name="BaseUrl">http://10.0.2.2:5000/</string>
+    <string name="BaseUrl">http://192.168.2.107:5000/</string>
     <string name="choosePic">choose a picture from your local storage
                  (click below)</string>
     <string name="home_fragment_message">

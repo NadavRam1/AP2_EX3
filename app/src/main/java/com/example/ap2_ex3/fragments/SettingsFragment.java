@@ -28,6 +28,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         // Get a reference to the EditTextPreference
         serverAddressPreference = findPreference("server_address");
+//        serverAddressPreference.setDefaultValue("http://192.168.2.107:5000");
 
         // Set the listener for the preference
         serverAddressPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -109,7 +110,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("base_url");
-        editor.putString("base_url", serverAddress);
+        editor.putString("base_url", "http://" + serverAddress);
         editor.commit();
         // Update the summary of the EditTextPreference
         if (!Objects.equals(serverAddress, "")) {

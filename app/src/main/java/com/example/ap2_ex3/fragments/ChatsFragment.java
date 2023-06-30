@@ -43,10 +43,17 @@ public class ChatsFragment extends Fragment {
     private ChatsViewModel chatsViewModel;
     BroadcastReceiver messageReceiver;
     LocalBroadcastManager localBroadcastManager;
+    private String defaultURL;
+    private SharedPreferences sharedPreferences;
+    private String baseURL;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
+
+        defaultURL = getResources().getString(R.string.BaseUrl);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+        baseURL = sharedPreferences.getString("base_url", defaultURL);
 
         lstFeed = view.findViewById(R.id.lstFeed);
         lstFeed.setHasFixedSize(true);
@@ -89,24 +96,9 @@ public class ChatsFragment extends Fragment {
         networkRequest();
         return view;
     }
-//
-//@Override
-//public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//    super.onActivityResult(requestCode, resultCode, data);
-//
-//    if (requestCode == REQUEST_CODE) {
-//        if (resultCode == Activity.RESULT_OK) {
-//            String lastMessage = data.getStringExtra("lastMessage");
-//            String lastMessageTime = data.getStringExtra("lastMessageTime");
-//            chats.get(tempPosition).setLastMessage(lastMessage);
-//            chats.get(tempPosition).setLastMessageTime(lastMessageTime);
-//        }
-//    }
-//}
-//
     private void networkRequest() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.BaseUrl))
+                .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);

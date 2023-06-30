@@ -13,6 +13,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,8 +24,9 @@ import android.widget.Toast;
 
 import com.example.ap2_ex3.R;
 import com.example.ap2_ex3.WebServiceAPI;
+import com.example.ap2_ex3.entities.FirebaseToken;
 import com.example.ap2_ex3.entities.User;
-import com.example.ap2_ex3.repositories.UsersRepository;
+//import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.regex.Pattern;
 
@@ -36,14 +38,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_PICK = 1;
-    private static final String URL_DATA = "http://10.0.2.2:5000/";
     EditText username, password, verifyPassword, displayName;
     private ImageView profilePic;
     CheckBox robotCheck;
+    private String defaultURL;
+    private SharedPreferences sharedPreferences;
+    private String baseURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
+        defaultURL = getResources().getString(R.string.BaseUrl);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        baseURL = sharedPreferences.getString("base_url", defaultURL);
+
+        sharedPreferences.getString("base_url", defaultURL);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("base_url");
+        editor.commit();
+
         if (sharedPref.contains("me")) {
             Intent intent = new Intent(this, MenuActivity.class);
             startActivity(intent);
@@ -99,10 +112,35 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void saveTokenToServer(FirebaseToken firebaseToken) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseURL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WebServiceAPI api = retrofit.create(WebServiceAPI.class);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String token = sharedPref.getString("token", "");
+        Call<Void> messagesCall = api.saveToken(token, firebaseToken);
+        messagesCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
 
    private void networkRequest() {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(getResources().getString(R.string.BaseUrl))
+                    .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);
@@ -115,19 +153,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
+
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
-//                else {
-//                    // Handle the case when the response is not successful or the body is null
-////                    username.setError(response.body());
-//                }
+                else {
+                    // Handle the case when the response is not successful or the body is null
+//                    username.setError(response.body());
+                    Log.d("TAG", String.valueOf(response.code()));
+                }
             }
 
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("TAG", t.getMessage());
             }
 
         });

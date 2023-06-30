@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,10 +51,17 @@ public class ChatActivity extends AppCompatActivity {
 
     BroadcastReceiver messageReceiver;
     LocalBroadcastManager localBroadcastManager;
+    private String defaultURL;
+    private SharedPreferences sharedPreferences;
+    private String baseURL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        defaultURL = getResources().getString(R.string.BaseUrl);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        baseURL = sharedPreferences.getString("base_url", defaultURL);
 
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         messageReceiver = new BroadcastReceiver() {
@@ -141,7 +146,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void addMessageToDB() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.BaseUrl))
+                .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);
@@ -167,7 +172,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void updateMessagesFromDB() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.BaseUrl))
+                .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);
@@ -194,7 +199,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void updateChatsFromDB() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.BaseUrl))
+                .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);
@@ -219,7 +224,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void notifyChat() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.BaseUrl))
+                .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);

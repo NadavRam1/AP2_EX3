@@ -44,6 +44,10 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private String defaultURL;
+    private SharedPreferences sharedPreferences;
+    private String baseURL;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -74,6 +78,14 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        defaultURL = getResources().getString(R.string.BaseUrl);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+        baseURL = sharedPreferences.getString("base_url", defaultURL);
+//        sharedPreferences.getString("base_url", defaultURL);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.remove("base_url");
+//        editor.commit();
+
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(getActivity(), instanceIdResult -> {
             String firebaseToken = instanceIdResult.getToken();
             saveTokenToServer(new FirebaseToken((firebaseToken)));
@@ -88,7 +100,7 @@ public class HomeFragment extends Fragment {
 
     public void saveTokenToServer(FirebaseToken firebaseToken) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.BaseUrl))
+                .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);

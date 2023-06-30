@@ -75,17 +75,6 @@ public class LogoutFragment extends Fragment {
             fragmentTransaction.commit();
         });
 
-//        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) confirm.getLayoutParams();
-//        confirm.setOnClickListener(v -> {
-//            if (counter++ % 2 == 0) {
-//                layoutParams.bottomMargin = 100;
-//                confirm.setLayoutParams(layoutParams);
-//            }
-//            else {
-//                layoutParams.bottomMargin = 0;
-//                confirm.setLayoutParams(layoutParams);
-//            }
-//        });
         return view;
     }
 

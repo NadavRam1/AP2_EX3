@@ -33,11 +33,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AddContactActivity extends AppCompatActivity {
     private ChatsViewModel chatsViewModel;
     private Executor executor = Executors.newSingleThreadExecutor();
+    private String defaultURL;
+    private SharedPreferences sharedPreferences;
+    private String baseURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
+
+        defaultURL = getResources().getString(R.string.BaseUrl);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        baseURL = sharedPreferences.getString("base_url", defaultURL);
 
         chatsViewModel = new ViewModelProvider(this).get(ChatsViewModel.class);
 
@@ -50,7 +57,7 @@ public class AddContactActivity extends AppCompatActivity {
 
     private void networkRequest() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.BaseUrl))
+                .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WebServiceAPI api = retrofit.create(WebServiceAPI.class);
@@ -62,19 +69,18 @@ public class AddContactActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Chat> call, Response<Chat> response) {
                 if (response.code() == 200) {
-                    Log.d("chat", response.body().toString());
+
                     chatsViewModel.insert(response.body());
                     finish();
                 } else {
-                    Log.i("code", String.valueOf(response.code()));
+
                 }
 
             }
 
             @Override
             public void onFailure(Call<Chat> call, Throwable t) {
-                Log.i("failure", t.getMessage());
-                Toast.makeText(getBaseContext(), "something wrong fuck you", Toast.LENGTH_LONG).show();
+
             }
         });
     }
