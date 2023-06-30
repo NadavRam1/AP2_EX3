@@ -1,3 +1,25 @@
 <resources>
-    <string name="app_name">AP2_EX3</string>
+    <string name="app_name">Whatsapp</string>
+    <string name="whatsapp_title">Whatsapp</string>
+    <string name="message_hint">message</string>
+    <string name="usernameHint">Username</string>
+    <string name="passwordHint">Password</string>
+    <string name="unregisteredText">Unregistered? click here to sign up</string>
+    <string name="loginBtn">Login</string>
+    <string name="confirm_password_text">Confirm Password</string>
+    <string name="display_name_text">Display Name</string>
+    <string name="picture_text">picture</string>
+    <string name="checkbox">I\'m not a robot</string>
+    <string name="AlreadyRegisteredText">Already registered? click here to login</string>
+    <string name="signUp">Sign Up</string>
+    <string name="home_navMessage">Home</string>
+    <string name="login_navMessage">Login</string>
+    <string name="messages_navMessage">Messages</string>
+    <string name="settings_navMessage">Settings</string>
+    <string name="logout_navMessage">Logout</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_navChats">Chats</string>
+    <string name="register_navMessage">Register</string>
+    <string name="danger_category">Danger</string>
 </resources>
