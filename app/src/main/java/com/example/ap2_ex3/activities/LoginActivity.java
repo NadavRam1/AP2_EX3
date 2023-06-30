@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
             public void updateDrawState(TextPaint ds) {
                 super.updateDrawState(ds);
                 // Customize the appearance of the ClickableSpan (blue color and underline)
-                ds.setColor(getResources().getColor(R.color.blue));
+                ds.setColor(getResources().getColor(R.color.linkColor));
                 ds.setUnderlineText(true);
             }
         };
