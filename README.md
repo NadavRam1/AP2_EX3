@@ -26,13 +26,15 @@ We know this isn't how it should have been done, but regarding those issued our 
 
 
 
-#installations required before running the program
+# installations required before running the program
 
 In order for the project to run as it is supposed to, you should install some packages before trying to run the program.
 
 You should download the packages using the next command:
 
 npm i react react-dom react-router-dom react-scripts express socket.io socket.io-client mongodb jsonwebtoken
+
+And of course, you will need to install the lovely Android Studio IDE
 
 # running the program
 
